@@ -1,11 +1,15 @@
 export default {
+  namepaced: true,
   name: 'articlteX',
   state: {
-    arxList: [
+    arxLists: [
       {
         id: 1,
         views: '533',
         likes: '96',
+        other: '风里追风',
+        time: '2023-04-21',
+        title: '阿里淘天集团春招前端面经',
         cons: `<div class="detail-wrap">
           <h3>阿里淘天集团春招前端面经</h3>
           <p class="meta"><span>🎓 211 本非科班</span><span>⏰ 4 技术面 + 1 HR</span><span>❌ 挂于 Webpack 插件</span></p>
@@ -29,6 +33,9 @@ export default {
         id: 2,
         views: '618',
         likes: '112',
+        title: '腾讯WXG前端实习三面记录',
+        other: '橘子味的风',
+        time: '2022-01-29',
         cons: `<div class="detail-wrap">
           <h3>腾讯 WXG 前端实习三面记录</h3>
           <p class="meta"><span>🌏 WXG 事业群</span><span>⏰ 90 min 视频面</span><span>✅ OC</span></p>
@@ -52,6 +59,9 @@ export default {
         id: 3,
         views: '289',
         likes: '58',
+        title: '字节抖音电商前端凉经',
+        other: '半盏流年',
+        time: '2022-06-23',
         cons: `<div class="detail-wrap">
           <h3>字节抖音电商前端凉经</h3>
           <p class="meta"><span>📦 抖音电商</span><span>⏰ 30 min 结束</span><span>❌ 一面挂</span></p>
@@ -71,6 +81,9 @@ export default {
         id: 4,
         views: '476',
         likes: '88',
+        title: '美团买菜前端暑期实习SP',
+        other: '云深不知处',
+        time: '2022-02-24',
         cons: `<div class="detail-wrap">
           <h3>美团买菜前端暑期实习 SP</h3>
           <p class="meta"><span>🛒 买菜事业部</span><span>⏰ 3 技术面</span><span>✅ SP</span></p>
@@ -92,6 +105,9 @@ export default {
         id: 5,
         views: '555',
         likes: '105',
+        title: '快手主站前端四面复盘',
+        other: '北海有鹿',
+        time: '2023-02-25',
         cons: `<div class="detail-wrap">
           <h3>快手主站前端四面复盘</h3>
           <p class="meta"><span>🎞️ 主站 Feed</span><span>⏰ 4+1 轮</span><span>✅ Offer</span></p>
@@ -113,6 +129,9 @@ export default {
         id: 6,
         views: '398',
         likes: '74',
+        title: '京东物流前端春招面经',
+        other: '青衫故人',
+        time: '2022-07-26',
         cons: `<div class="detail-wrap">
           <h3>京东物流前端春招面经</h3>
           <p class="meta"><span>🚚 物流赛道</span><span>⏰ 3 技术面</span><span>✅ Offer</span></p>
@@ -134,6 +153,9 @@ export default {
         id: 7,
         views: '412',
         likes: '79',
+        title: '蚂蚁保险前端实习三面',
+        other: '南风过境',
+        time: '2022-07-27',
         cons: `<div class="detail-wrap">
           <h3>蚂蚁保险前端实习三面</h3>
           <p class="meta"><span>🛡️ 保险业务</span><span>⏰ 3 技术面</span><span>✅ OC</span></p>
@@ -155,6 +177,9 @@ export default {
         id: 8,
         views: '256',
         likes: '51',
+        title: 'B站漫画前端一面凉经',
+        other: '寄梦山海',
+        time: '2022-09-28',
         cons: `<div class="detail-wrap">
           <h3>B 站漫画前端一面凉经</h3>
           <p class="meta"><span>📚 漫画阅读器</span><span>⏰ 30 min</span><span>❌ 挂</span></p>
@@ -173,6 +198,9 @@ export default {
         id: 9,
         views: '722',
         likes: '138',
+        title: '拼多多买菜前端秋招SP',
+        other: '星野旅客',
+        time: '2029-01-29',
         cons: `<div class="detail-wrap">
           <h3>拼多多买菜前端秋招 SP</h3>
           <p class="meta"><span>🛒 买菜事业部</span><span>⏰ 秋招提前批</span><span>✅ SP</span></p>
@@ -194,6 +222,9 @@ export default {
         id: 10,
         views: '465',
         likes: '85',
+        title: '网易有道前端实习复盘',
+        other: '月亮营业中',
+        time: '2021-01-30',
         cons: `<div class="detail-wrap">
           <h3>网易有道前端实习复盘</h3>
           <p class="meta"><span>📟 教育硬件</span><span>⏰ 3 技术面</span><span>✅ OC</span></p>
@@ -215,6 +246,9 @@ export default {
         id: 11,
         views: '512',
         likes: '93',
+        title: '小米汽车前端提前批面经',
+        other: '落日飞车',
+        time: '2021-02-21',
         cons: `<div class="detail-wrap">
           <h3>小米汽车前端提前批面经</h3>
           <p class="meta"><span>🚗 新能源车载大屏</span><span>⏰ 3 技术面</span><span>✅ OC</span></p>
@@ -236,6 +270,9 @@ export default {
         id: 12,
         views: '428',
         likes: '77',
+        title: '滴滴国际化前端三面',
+        other: '雾里看花',
+        time: '2022-02-12',
         cons: `<div class="detail-wrap">
           <h3>滴滴国际化前端三面</h3>
           <p class="meta"><span>🌍 国际化打车</span><span>⏰ 3 技术面</span><span>✅ Offer</span></p>
@@ -257,6 +294,9 @@ export default {
         id: 13,
         views: '298',
         likes: '55',
+        title: '携程机票前端实习凉经',
+        other: '风吹樱落',
+        time: '2022-02-23',
         cons: `<div class="detail-wrap">
           <h3>携程机票前端实习凉经</h3>
           <p class="meta"><span>✈️ 机票搜索</span><span>⏰ 2 轮</span><span>❌ 二面挂</span></p>
@@ -275,6 +315,9 @@ export default {
         id: 14,
         views: '389',
         likes: '72',
+        title: '新浪微博前端社招复盘',
+        other: '旧词新梦',
+        time: '2022-02-04',
         cons: `<div class="detail-wrap">
           <h3>新浪微博前端社招复盘</h3>
           <p class="meta"><span>📱 3 年经验跳槽</span><span>⏰ 4 轮</span><span>✅ Offer</span></p>
@@ -296,6 +339,9 @@ export default {
         id: 15,
         views: '456',
         likes: '86',
+        title: '商汤科技前端实习三面',
+        other: '清茶与酒',
+        time: '2022-02-05',
         cons: `<div class="detail-wrap">
           <h3>商汤科技前端实习三面</h3>
           <p class="meta"><span>🤖 AI 独角兽</span><span>⏰ 3 技术面</span><span>✅ OC</span></p>
@@ -317,6 +363,9 @@ export default {
         id: 16,
         views: '502',
         likes: '91',
+        title: '知乎前端校招面经',
+        other: '北巷南猫',
+        time: '2022-02-06',
         cons: `<div class="detail-wrap">
           <h3>知乎前端校招面经</h3>
           <p class="meta"><span>💬 内容社区</span><span>⏰ 4 轮</span><span>✅ Offer</span></p>
@@ -338,6 +387,9 @@ export default {
         id: 17,
         views: '437',
         likes: '80',
+        title: '贝壳找房前端暑期实习',
+        other: '海芋清风',
+        time: '2022-02-07',
         cons: `<div class="detail-wrap">
           <h3>贝壳找房前端暑期实习</h3>
           <p class="meta"><span>🏠 居住服务</span><span>⏰ 3 技术面</span><span>✅ OC</span></p>
@@ -359,6 +411,9 @@ export default {
         id: 18,
         views: '267',
         likes: '48',
+        title: '讯飞前端实习一面凉经',
+        other: '山川与海',
+        time: '2022-02-08',
         cons: `<div class="detail-wrap">
           <h3>讯飞前端实习一面凉经</h3>
           <p class="meta"><span>🎤 语音识别</span><span>⏰ 2 轮</span><span>❌ 二面挂</span></p>
@@ -377,6 +432,9 @@ export default {
         id: 19,
         views: '488',
         likes: '89',
+        title: 'OPPO互联网前端SP',
+        other: '南笙北梦',
+        time: '2022-02-09',
         cons: `<div class="detail-wrap">
           <h3>OPPO 互联网前端 SP</h3>
           <p class="meta"><span>📱 系统应用</span><span>⏰ 3 轮</span><span>✅ SP</span></p>
@@ -398,6 +456,9 @@ export default {
         id: 20,
         views: '415',
         likes: '78',
+        title: '深信服前端校招复盘',
+        other: '墨染倾城',
+        time: '2022-02-10',
         cons: `<div class="detail-wrap">
           <h3>深信服前端校招复盘</h3>
           <p class="meta"><span>🔒 安全赛道</span><span>⏰ 3 轮</span><span>✅ Offer</span></p>
@@ -419,6 +480,9 @@ export default {
         id: 21,
         views: '492',
         likes: '69',
+        title: '宇宙头条校招前端面经',
+        other: '不风流怎样倜傥',
+        time: '2022-01-20',
         cons: `<div class="detail-wrap">
           <h3>宇宙头条校招前端面经</h3>
           <p class="meta"><span>🌱 大三小白</span><span>⏰ 30 天 5 轮面试</span><span>✅ 已 OC</span></p>
@@ -456,9 +520,11 @@ export default {
     ]
   },
   getters: {
-    getDetail (state, id) {
-      const list = state?.arxList ?? []
-      return list.filter(item => String(item.id) === String(id))
+    getDetail: state => id => {
+      const del = state.arxLists.filter(item => item.id === id)
+      return del.length > 0 ? del : []
     }
+  },
+  mutations: {
   }
 }

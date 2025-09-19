@@ -9,8 +9,8 @@
         placeholder="用户名"
         :rules="[
           { required: true, message: '请填写用户名' },
-          {pattenr: /^\w{5,}$/, message: '用户必须在5位以上'}
-          ]"
+          { pattern: /^\w{5,}$/, message: '用户名必须在5位以上'}
+        ]"
       />
       <van-field
         v-model="password"
@@ -20,11 +20,19 @@
         placeholder="密码"
         :rules="[
           { required: true, message: '请填写密码' },
-          { pattenr: /^\w{6,}$/, message: '密码必须在6位以上'}
-          ]"
+          { pattern: /^\w{6,}$/, message: '密码必须在6位以上'}
+        ]"
       />
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit" :loading="isLoading" loading-text="登录中...">登录</van-button>
+        <van-button
+          round
+          block
+          type="info"
+          native-type="submit"
+          :loading="isLoading"
+          loading-text="登录中..."
+          >
+          登录</van-button>
       </div>
   </van-form>
   <router-link class="link" to="/register">注册账号</router-link>
@@ -32,7 +40,6 @@
 </template>
 
 <script>
-import { loginAPI } from '@/api/users'
 import { Toast } from 'vant'
 export default {
   name: 'Login-view',
@@ -44,19 +51,27 @@ export default {
     }
   },
   methods: {
-    async onSubmit (values) {
-      try {
-        const { data: res } = await loginAPI(values)
-        localStorage.setItem('mobile-token', res.data.token)
-        Toast.success('登录成功')
-        this.username = this.password = ''
-        this.$route.push('/home/article')
-      } catch (err) {
-        if (err.response) {
-          Toast.fail('登录失败')
-        } else {
-          Toast.fail(err.response.data.message)
-        }
+    getToken (value) {
+      const { username, password } = value
+      if (JSON.parse(localStorage.getItem('user')).username === username && JSON.parse(localStorage.getItem('user')).password === password) {
+        const rendomID = Math.random().toString(16).slice(2)
+        localStorage.setItem('token', rendomID)
+        console.log(localStorage.getItem('token'))
+        this.isLoading = true
+        setTimeout(() => {
+          this.isLoading = false
+          setTimeout(() => {
+            Toast.success('登录成功')
+          }, 300)
+          this.$router.push('/home/user')
+        }, 2300)
+      } else {
+        Toast.fail('用户名或密码错误')
+      }
+    },
+    onSubmit (values) {
+      if (localStorage.getItem('user')) {
+        this.getToken(values)
       }
     }
   }

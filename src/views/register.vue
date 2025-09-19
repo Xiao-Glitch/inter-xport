@@ -8,9 +8,9 @@
         label="用户名"
         placeholder="用户名"
         :rules="[
-          { required: true, message: '请填写密码' },
-          { pattern: /^\w{5,}$/, message: '密码必须在5位以上'}
-          ]"
+          { required: true, message: '请填写用户名' },
+          { pattern: /^\w{5,}$/, message: '用户名必须在5位以上'}
+        ]"
       />
       <van-field
         v-model="password"
@@ -24,7 +24,7 @@
           ]"
       />
       <div style="margin: 16px;">
-        <van-button round block type="info" native-type="submit">提交</van-button>
+        <van-button  round block type="info" native-type="submit" :loading="isLoading" loading-text="注册中...">注册</van-button>
       </div>
   </van-form>
   <router-link class="link" to="/login">登录账号</router-link>
@@ -32,31 +32,35 @@
 </template>
 
 <script>
-import { registerAPI } from '@/api/users'
 import { Toast } from 'vant'
 export default {
   name: 'register-view',
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      isLoading: false
     }
   },
   methods: {
-    async onSubmit (values) {
-      try {
-        await registerAPI(values)
-        Toast.success('注册成功')
-        this.username = this.password = ''
-        console.log('submit!', values)
-        this.$router.push('/login')
-      } catch (err) {
-        if (err.response) {
-          Toast.fail(err.response.data.message)
-        } else {
-          Toast.fail('注册失败')
-          console.log(err)
+    onSubmit (values) {
+      if (localStorage.getItem('user')) {
+        if (localStorage.getItem('user').username === values.username) {
+          Toast.fail('用户已存在')
         }
+      } else {
+        localStorage.setItem('user', JSON.stringify({ username: values.username, password: values.password }))
+        // console.log(JSON.parse(localStorage.getItem('user')))
+        this.username = this.password = ''
+        this.isLoading = true
+        setTimeout(() => {
+          Toast.success('注册成功 正在为您跳转到登录页面')
+          this.isLoading = false
+          setTimeout(() => {
+            Toast.clear()
+            this.$router.push('/login')
+          }, 1000)
+        }, 2500)
       }
     }
   }

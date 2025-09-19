@@ -43,7 +43,7 @@ export default {
   methods: {
     onRefresh () {
       setTimeout(() => {
-        // this.isLoading = false
+        this.isLoading = false
         location.reload()
       }, 1200)
     },

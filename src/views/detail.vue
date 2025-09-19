@@ -1,22 +1,28 @@
 <template>
   <div class="detail-view">
-    <van-nav-bar left-text="返回" @click-left="$router.go(-1)" fiexd title="面经详情"></van-nav-bar>
-    <header class="header">
-      <h1>标题</h1>
-      <p>
-        创建时间 | 432 浏览量 |
-        45 点赞数
-      </p>
-      <p>
-        <img src="../assets/logo.png" alt="">
-        <span>作者</span>
-      </p>
-    </header>
-    <main class="body">内容</main>
-    <div class="opt">
-      <van-icon name="like-o"></van-icon>
-      <van-icon name="star-o"></van-icon>
-    </div>
+    <van-pull-refresh v-model="isLoding" success-text="刷新成功" @refresh="onRefresh">
+        <van-nav-bar left-text="返回" @click-left="$router.go(-1)" fiexd title="面经详情"></van-nav-bar>
+        <div v-for="item in detail" :key="item.id" class="detail-warp">
+          <header class="header">
+          <h1 @click="getDetail">{{ item.title }}</h1>
+          <p>
+            创建时间 {{ item.time }} <br>
+            {{ item.likes }} 点赞数
+            |
+            {{ item.views }} 浏览量
+          </p>
+          <p>
+            <img src="../assets/logo.png" alt="">
+            <span>作者: {{ item.other }}</span>
+          </p>
+        </header>
+        <main class="body" v-html="item.cons"></main>
+        <div class="opt">
+          <van-icon name="like-o" @click="adtLike()"></van-icon>
+          <van-icon name="star-o" @click="adtCollect()"></van-icon>
+        </div>
+        </div>
+</van-pull-refresh>
   </div>
 </template>
 
@@ -27,32 +33,60 @@ export default {
   data () {
     return {
       detailID: '',
-      detail: []
+      detail: [],
+      isLoding: false,
+      isfinished: false
     }
   },
   methods: {
-  },
-  beforeCreate () {
+    getDetail () {
+      this.detailID = Number(this.$route.query.id)
+      const list = articlteX.state.arxLists
+      // console.log(this.detailID)
+      this.detail = list.filter(item => item.id === this.detailID)
+      console.log(this.detail)
+    },
+    onLoad () {
+      setTimeout(() => {
+        this.isfinished = true
+      }, 1500)
+    },
+    onRefresh () {
+      setTimeout(() => {
+        this.isLoding = false
+        location.reload()
+      }, 1200)
+    },
+
+    adtLike () {
+      console.log(1)
+    },
+
+    adtCollect () {
+      console.log(2)
+    }
   },
   mounted () {
-    this.detailID = Number(this.$route.query.id)
-    console.log(this.detailID)
-    this.detail = articlteX.getters.getDetail(this.detailID)()
-    console.log(this.articlteX)
-    console.log(this.detail)
-    // console.log(articlteX.getters.getDetail(this.detailID))
+    this.getDetail()
   }
 }
 </script>
 
 <style lang="less" scoped>
 .detail-view {
+  height: 750px;
   margin-top: 44px;
-  overflow: hidden;
+  // overflow: hidden;
   padding: 0 15px;
-  .header {
+  position: relative;
+  .detail-warp {
+    height: 705px;
+    .header {
     h1 {
-      font-size: 24px;
+      font-size: 22px;
+    }
+    h3 {
+      font-size: 20px;
     }
     p {
       color: #999;
@@ -67,12 +101,17 @@ export default {
       overflow: hidden;
     }
   }
+  }
   .opt {
-    position: fixed;
-    bottom: 100px;
-    right: 0;
+    // position: fixed;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 130px;
+    bottom: 36px;
+    right: 52px;
     > .van-icon {
-      margin-right: 20px;
       background: #fff;
       width: 40px;
       height: 40px;

@@ -1,14 +1,14 @@
 <template>
   <div class="collect-page">
     <van-nav-bar fixed title="我的收藏" />
-    <!-- <van-list
+    <van-list
       v-model="loading"
       :finished="finished"
       finished-text="没有更多了"
       @load="onLoad"
     >
       <ArticleItem v-for="item in list" :key="item.item" :item="item" />
-    </van-list> -->
+    </van-list>
   </div>
 </template>
 

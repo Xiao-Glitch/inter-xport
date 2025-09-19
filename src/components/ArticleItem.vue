@@ -15,7 +15,7 @@
       <div  class="body van-multi-ellipsis--l2" @click="goDetail(item.id)">
         {{ item.content }}
       </div>
-      <div class="foot">点赞 46 | 浏览 332</div>
+      <div class="foot">点赞 {{ item.likes }} | 浏览 {{ item.views }}</div>
     </template>
   </van-cell>
 </template>
@@ -37,12 +37,14 @@ export default {
 
   methods: {
     goDetail (id) {
-      router.push({
-        path: '/detail',
-        query: {
-          id
-        }
-      })
+      setTimeout(() => {
+        router.push({
+          path: '/detail',
+          query: {
+            id
+          }
+        })
+      }, 200)
     }
   }
 }
