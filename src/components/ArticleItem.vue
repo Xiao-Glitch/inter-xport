@@ -15,7 +15,7 @@
       <div  class="body van-multi-ellipsis--l2" @click="goDetail(item.id)">
         {{ item.content }}
       </div>
-      <div class="foot">点赞 {{ item.likes }} | 浏览 {{ item.views }}</div>
+      <div class="foot">点赞 {{ item.likes }} | 收藏 {{ item.views }}</div>
     </template>
   </van-cell>
 </template>

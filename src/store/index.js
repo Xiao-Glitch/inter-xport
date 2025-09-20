@@ -2,11 +2,15 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import articleltes from './modules/articleltes'
 import articlteX from './modules/articlteX'
+import likes from './modules/likes'
+import collects from './modules/collects'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
     articleltes,
-    articlteX
+    articlteX,
+    likes,
+    collects
   }
 })

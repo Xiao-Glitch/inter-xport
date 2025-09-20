@@ -9,7 +9,7 @@
             创建时间 {{ item.time }} <br>
             {{ item.likes }} 点赞数
             |
-            {{ item.views }} 浏览量
+            {{ item.views }} 收藏数
           </p>
           <p>
             <img src="../assets/logo.png" alt="">
@@ -18,8 +18,8 @@
         </header>
         <main class="body" v-html="item.cons"></main>
         <div class="opt">
-          <van-icon name="like-o" @click="adtLike()"></van-icon>
-          <van-icon name="star-o" @click="adtCollect()"></van-icon>
+          <van-icon :name="like ? 'like' : 'like-o'" @click="adtLike()" color="#FF3333"></van-icon>
+          <van-icon :name="star ? 'star' : 'star-o'" @click="adtCollect()" color="#fec635"></van-icon>
         </div>
         </div>
 </van-pull-refresh>
@@ -28,6 +28,10 @@
 
 <script>
 import articlteX from '@/store/modules/articlteX'
+import collects from '@/store/modules/collects'
+import likes from '@/store/modules/likes'
+import articleltes from '@/store/modules/articleltes'
+import { Toast } from 'vant'
 export default {
   name: 'Detail-view',
   data () {
@@ -35,7 +39,9 @@ export default {
       detailID: '',
       detail: [],
       isLoding: false,
-      isfinished: false
+      isfinished: false,
+      like: false,
+      star: false
     }
   },
   methods: {
@@ -57,17 +63,67 @@ export default {
         location.reload()
       }, 1200)
     },
+    likeSearch () {
+      if (likes.state.likes.some(item => item.id === this.detailID)) {
+        this.like = !this.like
+      }
+      console.log('likeSearch', likes.state.likes.some(item => item.id === this.detailID))
+      console.log('likeSearch', this.like)
+    },
+    starSearch () {
+      if (collects.state.colls.some(item => item.id === this.detailID)) {
+        this.star = !this.star
+      }
+      console.log('starSearch', collects.state.colls.some(item => item.id === this.detailID))
+      console.log('starSearch', this.star)
+    },
 
     adtLike () {
-      console.log(1)
+      if (localStorage.getItem('token')) {
+        if (!this.like) {
+          this.like = !this.like
+          this.detail[0].likes = Number(this.detail[0].likes) + 1
+          // likes.state.likes.push(articleltes.state.artList.filter(item => item.id === this.detailID)[0])
+          likes.mutations.addLike(likes.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
+          Toast('点赞成功')
+        } else {
+          this.like = !this.like
+          this.detail[0].likes = Number(this.detail[0].likes) - 1
+          // likes.state.likes = likes.state.likes.filter(item => item.id !== this.detailID)
+          likes.mutations.removeLike(likes.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
+          Toast('已取消点赞')
+          console.log(this.like)
+        }
+      } else {
+        Toast('请先登录')
+      }
     },
 
     adtCollect () {
-      console.log(2)
+      if (localStorage.getItem('token')) {
+        if (!this.star) {
+          this.star = !this.star
+          this.detail[0].views = Number(this.detail[0].views) + 1
+          collects.mutations.addColl(collects.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
+          Toast('收藏成功')
+        } else {
+          this.star = !this.star
+          this.detail[0].views = Number(this.detail[0].views) - 1
+          collects.mutations.removeColl(collects.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
+          Toast('已取消收藏')
+          console.log(this.star)
+        }
+      } else {
+        Toast('请先登录')
+      }
     }
   },
   mounted () {
     this.getDetail()
+    this.likeSearch()
+    this.starSearch()
+    console.log(this.detailID)
+    console.log(this.like)
   }
 }
 </script>
