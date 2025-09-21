@@ -1,6 +1,8 @@
 <template>
   <div class="layout-view">
-    <router-view></router-view>
+    <keep-alive :include="['article-view']">
+      <router-view></router-view>
+    </keep-alive>
 
     <van-tabbar route>
       <van-tabbar-item replace to="/home/article" icon="notes-o">面经</van-tabbar-item>

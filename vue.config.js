@@ -7,5 +7,16 @@ module.exports = defineConfig({
         url: require.resolve('url')
       }
     }
+  },
+  css: {
+    loaderOptions: {
+      less: {
+        lessOptions: {
+          modifyVars: {
+            blue: '#FA6D1D'
+          }
+        }
+      }
+    }
   }
 })

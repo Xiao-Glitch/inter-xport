@@ -1,5 +1,9 @@
 <template>
-  <router-view/>
+  <div id="app">
+      <keep-alive :include="['Home-view']">
+        <router-view/>
+      </keep-alive>
+  </div>
 </template>
 
 <script>

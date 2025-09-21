@@ -4,6 +4,7 @@ import store from './store/index.js'
 import router from './router'
 import Vant from 'vant'
 import 'vant/lib/index.css'
+import 'vant/lib/index.less'
 import ArticleItem from './components/ArticleItem.vue'
 
 Vue.component('ArticleItem', ArticleItem)

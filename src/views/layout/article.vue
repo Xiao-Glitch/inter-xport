@@ -37,14 +37,16 @@ export default {
       isfinished: false,
       finished: false,
       asLoading: false,
-      list: []
+      list: [],
+      temp: 0,
+      scorllTop: 0
     }
   },
   methods: {
     onRefresh () {
       setTimeout(() => {
         this.isLoading = false
-        location.reload()
+        // location.reload()
       }, 1200)
     },
     onLoad () {
@@ -61,6 +63,16 @@ export default {
       }, 1500)
     }
 
+  },
+  activated () {
+    window.addEventListener('scroll', () => {
+      this.temp = document.documentElement.scrollTop
+    })
+
+    document.documentElement.scrollTop = this.scorllTop
+  },
+  deactivated () {
+    this.scorllTop = this.temp
   }
 }
 </script>
