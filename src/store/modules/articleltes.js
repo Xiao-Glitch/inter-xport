@@ -89,7 +89,7 @@ export default {
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
         title: '拼多多买菜前端秋招SP',
         other: '星野旅客',
-        time: '2029-01-29',
+        time: '2025-01-29',
         content: '秋招提前批，买菜事业部，SP offer，聊秒杀并发，薪资爆表。'
       },
       {
@@ -99,7 +99,7 @@ export default {
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
         title: '网易有道前端实习复盘',
         other: '月亮营业中',
-        time: '2021-01-30',
+        time: '2025-04-30',
         content: '教育硬件，聊WebView优化，三面写JSBridge，已拿实习offer。'
       },
       {
@@ -109,7 +109,7 @@ export default {
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
         title: '小米汽车前端提前批面经',
         other: '落日飞车',
-        time: '2021-02-21',
+        time: '2025-06-21',
         content: '新能源赛道，车载大屏，聊Flutter混合开发，已OC。'
       },
       {
@@ -219,6 +219,11 @@ export default {
     getArticleList: state => state.artList,
     hasMore (state) {
       return !state.fetched || state.artList.length === 0
+    },
+    getArticleNews (state) {
+      return state.artList.slice().sort((a, b) =>
+        new Date(b.time) - new Date(a.time)
+      )
     }
   },
   mutations: {
