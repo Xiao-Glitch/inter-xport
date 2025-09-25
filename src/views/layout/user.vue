@@ -7,46 +7,48 @@
         <img :src="avatar" alt="" />
       <h3>{{ username }}</h3>
       </div> -->
-      <van-grid clickable :column-num="3" :border="false">
-        <van-grid-item icon="clock-o" text="历史记录" to="/" />
-        <van-grid-item icon="bookmark-o" text="我的收藏" to="/home/collect" />
-        <van-grid-item icon="thumb-circle-o" text="我的点赞" to="/home/like" />
-      </van-grid>
+      <van-pull-refresh v-model="isLoading" success-text="刷新成功" @refresh="onRefresh">
+        <van-grid clickable :column-num="3" :border="false">
+          <van-grid-item icon="clock-o" text="历史记录" to="/" />
+          <van-grid-item icon="bookmark-o" text="我的收藏" to="/home/collect" />
+          <van-grid-item icon="thumb-circle-o" text="我的点赞" to="/home/like" />
+        </van-grid>
 
-      <van-cell-group class="mt20">
-        <van-cell title="推荐分享" is-link @click="showShare = true" />
-        <van-share-sheet
-          v-model="showShare"
-          title="立即分享给好友"
-          :options="options"
-          @select="showShare = false"
-        />
-        <van-cell title="意见反馈" is-link />
-        <van-cell title="关于我们" is-link />
-        <van-cell v-show="!islogin" to='/login' title="去登录" is-link />
-        <van-cell v-show="islogin" @click="showPopup" title="退出登录" is-link />
-        <van-popup v-model="show" round closeable :style="{ height: '30%' }">
-          <div class="logout-warp">
-            <p>确定退出登录吗</p>
-            <div class="logout">
-              <van-button type="primary" round block @click="show = false" :style="{ width: '30%' }">取消</van-button>
-              <van-button type="danger" round block @click="logout" :style="{ width: '30%' }">退出登录</van-button>
-            </div>
-          </div>
-        </van-popup>
-      </van-cell-group>
+        <van-cell-group class="mt20">
+          <van-cell title="推荐分享" is-link @click="showShare = true" />
+            <van-share-sheet
+              v-model="showShare"
+              title="立即分享给好友"
+              :options="options"
+              @select="showShare = false"
+            />
+            <van-cell title="意见反馈" is-link />
+            <van-cell title="关于我们" is-link />
+            <van-cell v-show="!islogin" to='/login' title="去登录" is-link />
+            <van-cell v-show="islogin" @click="showPopup" title="退出登录" is-link />
+            <van-popup v-model="show" round closeable :style="{ height: '30%' }">
+              <div class="logout-warp">
+                <p>确定退出登录吗</p>
+                <div class="logout">
+                  <van-button type="primary" round block @click="show = false" :style="{ width: '30%' }">取消</van-button>
+                  <van-button type="danger" round block @click="logout" :style="{ width: '30%' }">退出登录</van-button>
+                </div>
+              </div>
+          </van-popup>
+        </van-cell-group>
+      </van-pull-refresh>
     </div>
 </template>
 
 <script>
 import { Toast } from 'vant'
-
 export default {
   name: 'User-view',
   data () {
     return {
       username: '',
       avatar: '../src/assets/logo.png',
+      isLoading: false,
       show: false,
       showShare: false,
       border: false,
@@ -89,6 +91,13 @@ export default {
     },
     showPopup () {
       this.show = true
+    },
+    onRefresh () {
+      setTimeout(() => {
+        this.isLoading = false
+        // window.location.reload()
+        this.islogin = JSON.parse(localStorage.getItem('islogin'))
+      }, 2000)
     }
   },
   mounted () {

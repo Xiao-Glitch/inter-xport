@@ -64,7 +64,7 @@ export default {
             Toast.success('登录成功')
             localStorage.setItem('islogin', true)
           }, 300)
-          this.$router.push('/home/user')
+          this.$router.push('/home')
         }, 2300)
       } else {
         Toast.fail('用户名或密码错误')
@@ -73,6 +73,8 @@ export default {
     onSubmit (values) {
       if (localStorage.getItem('user')) {
         this.getToken(values)
+      } else {
+        Toast.fail('请先注册')
       }
     }
   }
