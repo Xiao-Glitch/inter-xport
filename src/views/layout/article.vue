@@ -1,8 +1,8 @@
 <template>
   <div class="article-view">
     <nav class="my-nav van-hairline--bottom">
-      <a href="javascript:;">推荐</a>
-      <a href="javascript:;">最新</a>
+      <a href="javascript:;" @click="getRecom">推荐</a>
+      <a href="javascript:;" @click="getNew">最新</a>
       <div class="logo"><img src="@/assets/logo.png" alt></div>
     </nav>
     <van-pull-refresh v-model="isLoading" success-text="刷新成功" @refresh="onRefresh">
@@ -35,44 +35,77 @@ export default {
     return {
       isLoading: false,
       isfinished: false,
-      finished: false,
       asLoading: false,
       list: [],
+      srl: [],
       temp: 0,
-      scorllTop: 0
+      scrollTop: 0,
+      currentType: 'recom'
     }
   },
   methods: {
     onRefresh () {
+      // 刷新时根据当前类型重新加载数据
+      if (this.currentType === 'recom') {
+        this.getRecom()
+      } else {
+        this.getNew()
+      }
+
+      // 重置列表状态
+      this.isfinished = false
+      this.asLoading = false
+
       setTimeout(() => {
         this.isLoading = false
-        // location.reload()
       }, 1200)
     },
     onLoad () {
       setTimeout(() => {
-        const srl = articleltes.state.artList
         const start = this.list.length
-        const arList = srl.slice(start, start + 5)
+        const arList = this.srl.slice(start, start + 5)
         this.list.push(...arList)
         this.asLoading = false
 
-        if (this.list.length >= srl.length) {
+        if (this.list.length >= this.srl.length) {
           this.isfinished = true
         }
       }, 1500)
+    },
+    getRecom () {
+      this.list = []
+      this.currentType = 'recom'
+      this.srl = this.$store.state.articleltes.artList
+      this.isfinished = false
+      console.log(this.srl)
+    },
+    getNew () {
+      this.list = []
+      this.currentType = 'new'
+      // this.srl = this.$store.getters['articleltes/getArticleNews']
+      this.srl = articleltes.state.artList.slice().sort((a, b) =>
+        new Date(b.time) - new Date(a.time))
+      this.isfinished = false
+      console.log(this.srl)
     }
 
   },
+  mounted () {
+    this.getRecom()
+  },
   activated () {
-    window.addEventListener('scroll', () => {
+    const handleScroll = () => {
       this.temp = document.documentElement.scrollTop
-    })
+    }
+    window.addEventListener('scroll', handleScroll)
 
-    document.documentElement.scrollTop = this.scorllTop
+    // 使用闭包保存引用，在 deactivated 时移除
+    this.handleScroll = handleScroll
+    document.documentElement.scrollTop = this.scrollTop
   },
   deactivated () {
-    this.scorllTop = this.temp
+    this.scrollTop = this.temp
+    window.removeEventListener('scroll', this.handleScroll)
   }
 }
 </script>

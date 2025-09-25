@@ -219,15 +219,13 @@ export default {
     getArticleList: state => state.artList,
     hasMore (state) {
       return !state.fetched || state.artList.length === 0
-    },
-    getArticleNews (state) {
-      return state.artList.slice().sort((a, b) =>
-        new Date(b.time) - new Date(a.time)
-      )
     }
   },
+
   mutations: {
+
   },
+
   actions: {
   }
 }

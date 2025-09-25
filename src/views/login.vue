@@ -62,6 +62,7 @@ export default {
           this.isLoading = false
           setTimeout(() => {
             Toast.success('登录成功')
+            localStorage.setItem('islogin', true)
           }, 300)
           this.$router.push('/home/user')
         }, 2300)

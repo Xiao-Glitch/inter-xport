@@ -1,3 +1,4 @@
+import { Toast } from 'vant'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 Vue.use(VueRouter)
@@ -49,7 +50,7 @@ const router = new VueRouter({
   routes
 })
 
-const allow = ['/login', '/register', '/home/article']
+const allow = ['/login', '/register', '/home/article', '/detail', '/home/user']
 router.beforeEach((to, from, next) => {
   if (allow.includes(to.path)) {
     next()
@@ -58,7 +59,8 @@ router.beforeEach((to, from, next) => {
     if (token) {
       next()
     } else {
-      next('/login')
+      // next('/login')
+      Toast.fail('请先登录')
     }
   }
 })
