@@ -34,6 +34,10 @@ const routes = [
         component: () => import('@/views/layout/like.vue')
       },
       {
+        path: 'history',
+        component: () => import('@/views/layout/history.vue')
+      },
+      {
         path: 'user',
         component: () => import('@/views/layout/user.vue')
       }
@@ -45,6 +49,16 @@ const routes = [
   }
 
 ]
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push (location, onResolve, onReject) {
+  if (onResolve || onReject) {
+    return originalPush.call(this, location, onResolve, onReject)
+  }
+  return originalPush.call(this, location).catch(err => {
+    if (err.name !== 'NavigationDuplicated') throw err
+  })
+}
 
 const router = new VueRouter({
   routes

@@ -1,8 +1,8 @@
 <template>
   <div class="article-view">
     <nav class="my-nav van-hairline--bottom">
-      <a href="javascript:;" @click="getRecom">推荐</a>
-      <a href="javascript:;" @click="getNew">最新</a>
+      <a :class="{ active:isActive }" class="actives" href="javascript:;" @click="toggleRecom">推荐</a>
+      <a :class="{ active:!isActive }" href="javascript:;" @click="toggleNew">最新</a>
       <div class="logo"><img src="@/assets/logo.png" alt></div>
     </nav>
     <van-pull-refresh v-model="isLoading" success-text="刷新成功" @refresh="onRefresh">
@@ -26,6 +26,7 @@
 <script>
 import ArticleItem from '@/components/ArticleItem.vue'
 import articleltes from '@/store/modules/articleltes'
+import debounce from 'lodash/debounce'
 export default {
   name: 'article-view',
   components: {
@@ -36,6 +37,7 @@ export default {
       isLoading: false,
       isfinished: false,
       asLoading: false,
+      isActive: true,
       list: [],
       srl: [],
       temp: 0,
@@ -43,6 +45,11 @@ export default {
       currentType: 'recom'
     }
   },
+  created () {
+    this.toggleRecom = debounce(this.getRecom, 500)
+    this.toggleNew = debounce(this.getNew, 500)
+  },
+
   methods: {
     onRefresh () {
       // 刷新时根据当前类型重新加载数据
@@ -66,27 +73,40 @@ export default {
         const arList = this.srl.slice(start, start + 5)
         this.list.push(...arList)
         this.asLoading = false
-
+        console.log('srl长度=', this.srl.length, 'start=', start)
         if (this.list.length >= this.srl.length) {
           this.isfinished = true
         }
-      }, 1500)
+      }, 1200)
     },
     getRecom () {
       this.list = []
       this.currentType = 'recom'
       this.srl = this.$store.state.articleltes.artList
       this.isfinished = false
-      console.log(this.srl)
+      const active = document.querySelector('.actives')
+      active.style.setProperty('--x', '-2vw')
+      this.isActive = true
+      // 2. 关键：让 van-list 以为“需要立即加载第一屏”
+      this.$nextTick(() => {
+        this.asLoading = true
+        this.onLoad()
+      })
     },
     getNew () {
       this.list = []
       this.currentType = 'new'
-      // this.srl = this.$store.getters['articleltes/getArticleNews']
-      this.srl = articleltes.state.artList.slice().sort((a, b) =>
-        new Date(b.time) - new Date(a.time))
+      this.srl = articleltes.state.artList
+        .slice()
+        .sort((a, b) => new Date(b.time) - new Date(a.time))
       this.isfinished = false
-      console.log(this.srl)
+      const active = document.querySelector('.actives')
+      active.style.setProperty('--x', '11vw')
+      this.isActive = false
+      this.$nextTick(() => {
+        this.asLoading = true
+        this.onLoad()
+      })
     }
 
   },
@@ -130,17 +150,17 @@ export default {
       line-height: 44px;
       margin-left: 20px;
       position: relative;
-      transition: all 0.3s;
+      transition: all 0.5s;
       &::after {
         content: '';
         position: absolute;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translateX(var(--x, -2vw));
         bottom: 0;
         width: 0;
         height: 2px;
         background: #222;
-        transition: all 0.3s;
+        transition: all 0.5s;
       }
       &.active {
         color: #222;

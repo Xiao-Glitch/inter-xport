@@ -17,11 +17,12 @@
           </p>
         </header>
         <main class="body" v-html="item.cons"></main>
+        </div>
         <div class="opt">
           <van-icon :name="like ? 'like' : 'like-o'" @click="adtLike()" color="#FF3333"></van-icon>
           <van-icon :name="star ? 'star' : 'star-o'" @click="adtCollect()" color="#fec635"></van-icon>
         </div>
-        </div>
+        <CommentItem></CommentItem>
 </van-pull-refresh>
   </div>
 </template>
@@ -31,9 +32,14 @@ import articlteX from '@/store/modules/articlteX'
 import collects from '@/store/modules/collects'
 import likes from '@/store/modules/likes'
 import articleltes from '@/store/modules/articleltes'
+import history from '@/store/modules/history'
+import CommentItem from '@/components/CommentItem'
 import { Toast } from 'vant'
 export default {
   name: 'Detail-view',
+  components: {
+    CommentItem
+  },
   data () {
     return {
       detailID: '',
@@ -44,13 +50,17 @@ export default {
       star: false
     }
   },
+
   methods: {
     getDetail () {
       this.detailID = Number(this.$route.query.id)
       const list = articlteX.state.arxLists
       // console.log(this.detailID)
       this.detail = list.filter(item => item.id === this.detailID)
-      console.log(this.detail)
+      // console.log(list)
+      const tar = articleltes.state.artList.filter(item => item.id === this.detail[0].id)
+      console.log(tar)
+      history.mutations.addHistory(history.state, tar[0])
     },
     onLoad () {
       setTimeout(() => {
@@ -67,15 +77,15 @@ export default {
       if (likes.state.likes.some(item => item.id === this.detailID)) {
         this.like = !this.like
       }
-      console.log('likeSearch', likes.state.likes.some(item => item.id === this.detailID))
-      console.log('likeSearch', this.like)
+      // console.log('likeSearch', likes.state.likes.some(item => item.id === this.detailID))
+      // console.log('likeSearch', this.like)
     },
     starSearch () {
       if (collects.state.colls.some(item => item.id === this.detailID)) {
         this.star = !this.star
       }
-      console.log('starSearch', collects.state.colls.some(item => item.id === this.detailID))
-      console.log('starSearch', this.star)
+      // console.log('starSearch', collects.state.colls.some(item => item.id === this.detailID))
+      // console.log('starSearch', this.star)
     },
 
     adtLike () {
@@ -122,8 +132,8 @@ export default {
     this.getDetail()
     this.likeSearch()
     this.starSearch()
-    console.log(this.detailID)
-    console.log(this.like)
+    // console.log(this.detailID)
+    // console.log(this.like)
   }
 }
 </script>

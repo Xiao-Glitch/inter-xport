@@ -3,18 +3,19 @@
       <div id="pops">
         <div><van-loading size="26" vertical>正在退出登录...</van-loading></div>
       </div>
-      <!-- <div class="user">
-        <img :src="avatar" alt="" />
-      <h3>{{ username }}</h3>
-      </div> -->
       <van-pull-refresh v-model="isLoading" success-text="刷新成功" @refresh="onRefresh">
+        <div class="user">
+          <img :src="avatar" alt="" />
+          <h3>{{ username }}</h3>
+        </div>
         <van-grid clickable :column-num="3" :border="false">
-          <van-grid-item icon="clock-o" text="历史记录" to="/" />
+          <van-grid-item icon="clock-o" text="历史记录" to="/home/history" />
           <van-grid-item icon="bookmark-o" text="我的收藏" to="/home/collect" />
           <van-grid-item icon="thumb-circle-o" text="我的点赞" to="/home/like" />
         </van-grid>
 
         <van-cell-group class="mt20">
+          <van-cell title="设置" is-link />
           <van-cell title="推荐分享" is-link @click="showShare = true" />
             <van-share-sheet
               v-model="showShare"
@@ -42,12 +43,13 @@
 
 <script>
 import { Toast } from 'vant'
+import logo from '@/assets/logo.png'
 export default {
   name: 'User-view',
   data () {
     return {
-      username: '',
-      avatar: '../src/assets/logo.png',
+      username: JSON.parse(localStorage.getItem('user')).username || '',
+      avatar: logo,
       isLoading: false,
       show: false,
       showShare: false,
