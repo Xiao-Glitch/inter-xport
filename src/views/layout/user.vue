@@ -43,13 +43,13 @@
 
 <script>
 import { Toast } from 'vant'
-import logo from '@/assets/logo.png'
+import avatar from '@/assets/avatar.png'
 export default {
   name: 'User-view',
   data () {
     return {
       username: JSON.parse(localStorage.getItem('user')).username || '',
-      avatar: logo,
+      avatar: avatar,
       isLoading: false,
       show: false,
       showShare: false,

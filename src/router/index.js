@@ -35,7 +35,7 @@ const routes = [
       },
       {
         path: 'history',
-        component: () => import('@/views/layout/history.vue')
+        component: () => import('@/views/history.vue')
       },
       {
         path: 'user',
@@ -51,12 +51,29 @@ const routes = [
 ]
 
 const originalPush = VueRouter.prototype.push
+const originalReplace = VueRouter.prototype.replace
+
 VueRouter.prototype.push = function push (location, onResolve, onReject) {
   if (onResolve || onReject) {
     return originalPush.call(this, location, onResolve, onReject)
   }
   return originalPush.call(this, location).catch(err => {
-    if (err.name !== 'NavigationDuplicated') throw err
+    if (err.name !== 'NavigationDuplicated' || err.name === 'NavigationDuplicated') {
+      return Promise.resolve()
+    }
+    return Promise.reject(err)
+  })
+}
+
+VueRouter.prototype.replace = function replace (location, onResolve, onReject) {
+  if (onResolve || onReject) {
+    return originalReplace.call(this, location, onResolve, onReject)
+  }
+  return originalReplace.call(this, location).catch(err => {
+    if (err.name !== 'NavigationDuplicated' || err.name === 'NavigationRedirected') {
+      return Promise.resolve()
+    }
+    return Promise.reject(err)
   })
 }
 
@@ -64,18 +81,21 @@ const router = new VueRouter({
   routes
 })
 
-const allow = ['/login', '/register', '/home/article', '/detail', '/home/user']
-router.beforeEach((to, from, next) => {
-  if (allow.includes(to.path)) {
-    next()
+const allowList = ['/login', '/register', '/home/article', '/detail']
+router.beforeEach(async (to, from, next) => {
+  const token = window.localStorage.getItem('token')
+  if (allowList.some(path => to.fullPath.startsWith(path))) {
+    return next()
+  }
+  if (token) return next()
+
+  Toast.fail('请先登录')
+
+  const redirect = to.fullPath
+  if (router.currentRoute.path !== '/login') {
+    next({ path: '/login', query: { redirect } })
   } else {
-    const token = window.localStorage.getItem('token')
-    if (token) {
-      next()
-    } else {
-      // next('/login')
-      Toast.fail('请先登录')
-    }
+    next()
   }
 })
 

@@ -20,5 +20,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-
+:deep(.van-tabbar-item) {
+  margin: 0 34px;
+}
 </style>

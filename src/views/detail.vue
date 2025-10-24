@@ -1,9 +1,20 @@
 <template>
   <div class="detail-view">
+    <van-nav-bar left-text="返回"
+      left-arrow
+      @click-left="$router.go(-1)"
+      fiexd
+      safe-area-inset-top
+      title="面经详情">
+      <template #right>
+        <van-icon name="search" size="18" @click="toSearch">
+        </van-icon>
+        <input class="search-input" type="search" placeholder="搜索" v-model="searchInput"/>
+      </template>
+    </van-nav-bar>
     <van-pull-refresh v-model="isLoding" success-text="刷新成功" @refresh="onRefresh">
-        <van-nav-bar left-text="返回" @click-left="$router.go(-1)" fiexd title="面经详情"></van-nav-bar>
-        <div v-for="item in detail" :key="item.id" class="detail-warp">
-          <header class="header">
+      <div v-for="item in detail" :key="item.id" class="detail-warp">
+        <header class="header">
           <h1 @click="getDetail">{{ item.title }}</h1>
           <p>
             创建时间 {{ item.time }} <br>
@@ -11,19 +22,23 @@
             |
             {{ item.views }} 收藏数
           </p>
-          <p>
-            <img src="../assets/logo.png" alt="">
-            <span>作者: {{ item.other }}</span>
-          </p>
-        </header>
-        <main class="body" v-html="item.cons"></main>
-        </div>
-        <div class="opt">
-          <van-icon :name="like ? 'like' : 'like-o'" @click="adtLike()" color="#FF3333"></van-icon>
-          <van-icon :name="star ? 'star' : 'star-o'" @click="adtCollect()" color="#fec635"></van-icon>
-        </div>
-        <CommentItem></CommentItem>
-</van-pull-refresh>
+          <div class="author">
+            <p>
+              <img src="../assets/avatar.png" alt="">
+              <span>作者: {{ item.other }}</span>
+            </p>
+            <van-button icon="plus" size="mini" type="info">关注</van-button>
+          </div>
+      </header>
+      <hr />
+      <main class="body" v-html="item.cons"></main>
+      </div>
+      <div class="opt">
+        <van-icon :name="like ? 'like' : 'like-o'" @click="adtLike()" color="#FF3333"></van-icon>
+        <van-icon :name="star ? 'star' : 'star-o'" @click="adtCollect()" color="#fec635"></van-icon>
+      </div>
+      <CommentItem></CommentItem>
+    </van-pull-refresh>
   </div>
 </template>
 
@@ -47,7 +62,8 @@ export default {
       isLoding: false,
       isfinished: false,
       like: false,
-      star: false
+      star: false,
+      searchInput: ''
     }
   },
 
@@ -59,7 +75,7 @@ export default {
       this.detail = list.filter(item => item.id === this.detailID)
       // console.log(list)
       const tar = articleltes.state.artList.filter(item => item.id === this.detail[0].id)
-      console.log(tar)
+      // console.log(tar)
       history.mutations.addHistory(history.state, tar[0])
     },
     onLoad () {
@@ -72,6 +88,10 @@ export default {
         this.isLoding = false
         location.reload()
       }, 1200)
+    },
+    toSearch () {
+      console.log(this.searchInput.trim())
+      this.searchInput = ''
     },
     likeSearch () {
       if (likes.state.likes.some(item => item.id === this.detailID)) {
@@ -132,6 +152,13 @@ export default {
     this.getDetail()
     this.likeSearch()
     this.starSearch()
+    const searchInput = document.querySelector('.search-input')
+    searchInput.addEventListener('focus', function () {
+      searchInput.style.width = '128px'
+    })
+    searchInput.addEventListener('blur', function () {
+      searchInput.style.width = '78px'
+    })
     // console.log(this.detailID)
     // console.log(this.like)
   }
@@ -139,34 +166,77 @@ export default {
 </script>
 
 <style lang="less" scoped>
+input[type="search"]::-webkit-search-cancel-button {
+  display: none !important;
+}
 .detail-view {
   height: 750px;
-  margin-top: 44px;
+  margin-top: 8px;
   // overflow: hidden;
   padding: 0 15px;
   position: relative;
   .detail-warp {
     height: 705px;
     .header {
-    h1 {
-      font-size: 22px;
-    }
-    h3 {
-      font-size: 20px;
-    }
-    p {
-      color: #999;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-    }
-    img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      overflow: hidden;
+      h1 {
+        font-size: 22px;
+      }
+      h3 {
+        font-size: 20px;
+      }
+      p {
+        color: #999;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 5px;
+      }
+      .author {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
     }
   }
+  :deep(.van-nav-bar__content) {
+    justify-content: space-between;
+  }
+  :deep(.van-nav-bar__title) {
+    margin: 0;
+  }
+  :deep(.van-nav-bar__left, .van-nav-bar__right) {
+    padding: 0 1.26667vw !important;
+  }
+  :deep(.van-nav-bar__left) {
+    position: inherit;
+  }
+  :deep(.van-nav-bar__right) {
+    width: 100px;
+    position: relative;
+    justify-content: end;
+  }
+  :deep(.van-nav-bar__right i) {
+    position: absolute;
+    top: 6px;
+    left: 96px;
+  }
+  .search-input {
+    font-size: 12px;
+    width: 78px;
+    border-radius: 8px;
+    border: 1px solid #999;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin-top: 32px;
+    margin-bottom: 32px;
   }
   .opt {
     // position: fixed;

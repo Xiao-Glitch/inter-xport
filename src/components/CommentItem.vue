@@ -6,21 +6,15 @@
     <div class="comment-form">
       <div class="content">
         <div class="avatar-box">
-          <img src="../assets/logo.png" alt="">
+          <img src="../assets/avatar.png" alt="">
         </div>
-        <div class="form-box">
-          <div class="comment-input">
-            <div class="auth-card">
-              <div class="input-box">
-                <div class="rich-input">
-                  <textarea name="" cols="28" rows="5" placeholder="请输入评论内容"></textarea>
-                </div>
-                <div class="action-box">
-                  <div class="submit">
-                    <span>发送</span>
-                  </div>
-                </div>
-              </div>
+        <div class="comment-input">
+          <div class="rich-input">
+            <div class="input" contenteditable="true" spellcheck="false" placeholder="输入评论..."></div>
+          </div>
+          <div class="action-box">
+            <div class="submit">
+              <span>发送</span>
             </div>
           </div>
         </div>
@@ -31,7 +25,29 @@
 
 <script>
 export default {
-  name: 'CommentItem'
+  name: 'CommentItem',
+  data () {
+    return {
+      commentInput: ''
+    }
+  },
+  mounted () {
+    document.querySelector('.input').addEventListener('focus', (e) => {
+      document.querySelector('.submit').style.top = '105px'
+      document.querySelector('.submit').style.right = '6px'
+    })
+
+    document.querySelector('.input').addEventListener('blur', (e) => {
+      document.querySelector('.submit').style.top = '7px'
+      document.querySelector('.submit').style.right = '0'
+      this.commentInput = e.target.textContent.trim()
+      if (!this.commentInput) {
+        e.target.textContent = ''
+      } else {
+        console.log(this.commentInput)
+      }
+    })
+  }
 }
 </script>
 
@@ -45,7 +61,8 @@ export default {
   }
   .content {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
+    // align-items: center;
   }
 
   .avatar-box {
@@ -54,40 +71,61 @@ export default {
     img {
       width: 100%;
       height: 100%;
+      border-radius: 50%;
     }
   }
 
   .comment-input {
+    position: relative;
     box-sizing: border-box;
-  }
-  .auth-card {
-    width: 72vw;
-    height: 10vh;
-    border: 1px solid transparent;
-    border-color: #1e80ff;
-    background-color: #f2f3f5;
-    .input-box {
-      display: flex;
-      height: 10vh;
-      textarea {
-        width: 100%;
-        height: 100%;
-        border: none;
-        outline: none;
-        resize: none;
-        padding: 0.5rem;
-
+    .rich-input {
+      margin: 6px auto;
+      .input {
+        padding: 4px;
+        width: 246px;
+        height: 18px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #999;
+        transition: all .5s;
+        &:empty::before {
+          content: '请输入评论...';
+          position: absolute;
+          top: 12px;
+          left: 8px;
+          color: #999;
+          font-size: 12px;
+          // pointer-events: none;
+        }
+        &:focus {
+          height: 120px;
+          border: 1px solid #999;
+          outline-color: #999;
+        }
       }
-      span {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 10vw;
-        height: 10vh;
+    }
+    .action-box {
+      .submit {
+        height: 16px;
+        position: absolute;
         background-color: #1e80ff;
-        color: white;
-
+        transition: all .6s;
+        border-radius: 8px;
+        border-top-left-radius: 0.3px;
+        border-bottom-left-radius: 0.3px;
+        height: 27px;
+        width: 60px;
+        top: 7px;
+        right: 0;
+        span {
+          display: inline-block;
+          margin: 2px 0;
+          width: 60px;
+          color: #fff;
+          text-align: center;
+        }
       }
     }
   }
+
 </style>
