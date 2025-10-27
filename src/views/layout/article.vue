@@ -200,6 +200,7 @@ export default {
     position: fixed;
     left: 0;
     top: 0;
+    padding-bottom: 1px;
     width: 100%;
     z-index: 99999;
     background: #fff;
@@ -260,7 +261,7 @@ export default {
       align-items: center;
       > img {
         width: 34px;
-        height: 36px;
+        height: 34px;
         display: block;
         margin-right: 10px;
         border-radius: 50%;

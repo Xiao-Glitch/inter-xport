@@ -14,7 +14,36 @@
           </div>
           <div class="action-box">
             <div class="submit">
-              <span>发送</span>
+              <span @click="submitComment">发送</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="comment-contents">
+      <div class="content-bar">
+        <a class="active" href="JavaScript:">最热</a>
+        <a href="JavaScript:">最新</a>
+      </div>
+      <div class="comment-list">
+        <div class="comment-item">
+          <div class="comment-avatar">
+            <img src="../assets/avatar.png" alt="">
+          </div>
+          <div class="comment-content">
+            <div class="comment-title">
+              <div class="comment-title-left">
+                <div class="comment-title-name"><span>小李</span></div>
+                <div class="comment-title-time"><span>4小时前</span></div>
+              </div>
+              <div class="comment">
+                <div class="contnets">
+                  <p>edfggrghrg</p>
+                </div>
+              </div>
+              <div class="comment-title-right">
+                <div class="comment-title-like">0</div>
+              </div>
             </div>
           </div>
         </div>
@@ -24,11 +53,20 @@
 </template>
 
 <script>
+import { Toast } from 'vant'
+
 export default {
   name: 'CommentItem',
   data () {
     return {
       commentInput: ''
+    }
+  },
+  methods: {
+    submitComment () {
+      console.log(this.commentInput)
+      this.commentInput = ''
+      Toast.success('评论成功')
     }
   },
   mounted () {
@@ -43,8 +81,6 @@ export default {
       this.commentInput = e.target.textContent.trim()
       if (!this.commentInput) {
         e.target.textContent = ''
-      } else {
-        console.log(this.commentInput)
       }
     })
   }
@@ -54,20 +90,87 @@ export default {
 <style lang="less" scoped>
   .comment-container {
     // height: 100vh;
+    margin-top: 40px;
     padding: 0 4vw;
   }
   .comment-form {
-    height: 50vh;
+    height: 100%;
   }
   .content {
     display: flex;
     justify-content: space-evenly;
     // align-items: center;
+    .avatar-box {
+      margin-right: 10px;
+    }
+  }
+
+  .comment-contents {
+    margin-top: 22px;
+    height: 700px;
+    .content-bar {
+      > a {
+      color: #999;
+      font-size: 14px;
+      line-height: 44px;
+      // margin-left: 20px;
+      position: relative;
+      transition: all 0.5s;
+        &.active {
+          color: #1e80ff;
+        }
+        &:nth-child(1) {
+          margin-left: 6px;
+          margin-right: 20px;
+        }
+      }
+    }
+    .comment-list {
+      padding: 12px 0;
+      .comment-item {
+        display: flex;
+        // justify-content: space-evenly;
+        .comment-avatar {
+          width: 39px;
+          height: 39px;
+          border-radius: 50%;
+          > img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+          }
+        }
+        .comment-content {
+          margin-left: 10px;
+          border: 1px solid #999;
+          width: 260px;
+          height: 150px;
+          // background-color: #1e80ff;
+          .comment-title {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-end;
+            flex: 1;
+            .comment-title-left {
+              display: flex;
+              justify-content: space-between;
+              width: 100%;
+              padding: 5px;
+              margin-bottom: 10px;
+            }
+            .comment {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
   }
 
   .avatar-box {
-    width: 10vw;
-    height: 10vw;
+    width: 39px;
+    height: 39px;
     img {
       width: 100%;
       height: 100%;
@@ -115,7 +218,7 @@ export default {
         border-bottom-left-radius: 0.3px;
         height: 27px;
         width: 60px;
-        top: 7px;
+        top: 6px;
         right: 0;
         span {
           display: inline-block;

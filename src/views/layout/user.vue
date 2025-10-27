@@ -9,13 +9,15 @@
           <h3>{{ username }}</h3>
         </div>
         <van-grid clickable :column-num="3" :border="false">
-          <van-grid-item icon="clock-o" text="历史记录" to="/home/history" />
+          <van-grid-item icon="friends-o" text="我的关注" to="/home/like" />
           <van-grid-item icon="bookmark-o" text="我的收藏" to="/home/collect" />
           <van-grid-item icon="thumb-circle-o" text="我的点赞" to="/home/like" />
+          <van-grid-item icon="clock-o" text="历史记录" to="/home/history" />
+          <van-grid-item icon="setting-o" text="设置" to="/home/setting" />
+          <van-grid-item icon="setting-o" text="设置" to="/home/setting" />
         </van-grid>
 
         <van-cell-group class="mt20">
-          <van-cell title="设置" is-link />
           <van-cell title="推荐分享" is-link @click="showShare = true" />
             <van-share-sheet
               v-model="showShare"

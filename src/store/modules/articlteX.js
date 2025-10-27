@@ -5,6 +5,7 @@ export default {
     arxLists: [
       {
         id: 1,
+        otherId: 1001,
         views: '533',
         likes: '96',
         other: '风里追风',
@@ -15,14 +16,14 @@ export default {
           <p class="meta"><span>🎓 211 本非科班</span><span>⏰ 4 技术面 + 1 HR</span><span>❌ 挂于 Webpack 插件</span></p>
           <h4>一、Webpack 插件连环炮</h4>
           <ul>
-            <li>tapable 钩子执行顺序</li>
-            <li>如何统计各 chunk 的重复模块？</li>
-            <li>手写：将未使用组件自动剔除的插件</li>
+            <li>tapable 钩子执行顺序：面试官详细询问了 tapable 钩子的同步和异步执行机制，以及如何通过插件来修改钩子的执行流程[^32^]。</li>
+            <li>如何统计各 chunk 的重复模块？：我尝试从代码分割的角度解释，但面试官追问了更细节的实现方式，包括如何通过 AST 分析代码依赖[^32^]。</li>
+            <li>手写：将未使用组件自动剔除的插件：我展示了基本的插件框架，但在实现细节上卡住了，面试官提示了可以结合模块的依赖关系和使用情况来实现[^32^]。</li>
           </ul>
           <h4>二、四面深挖性能</h4>
           <ul>
-            <li>首屏 6 s → 1.8 s 的 3 个关键指标</li>
-            <li>如何不依赖 CDN 把 vendor 体积降 40%？</li>
+            <li>首屏 6 s → 1.8 s 的 3 个关键指标：我提到了 LCP、FID 和 TTI，面试官追问了如何通过代码优化和资源管理来提升这些指标[^32^]。</li>
+            <li>如何不依赖 CDN 把 vendor 体积降 40%？：我提出了代码分割、Tree-shaking 和动态导入等方法，面试官对如何实现高效的代码分割特别感兴趣[^32^]。</li>
           </ul>
           <h4>复盘金句</h4>
           <blockquote>「非科班不是短板，短板是简历里不敢写深度。」</blockquote>
@@ -31,6 +32,7 @@ export default {
       },
       {
         id: 2,
+        otherId: 1002,
         views: '618',
         likes: '112',
         title: '腾讯WXG前端实习三面记录',
@@ -57,6 +59,7 @@ export default {
       },
       {
         id: 3,
+        otherId: 1003,
         views: '289',
         likes: '58',
         title: '字节抖音电商前端凉经',
@@ -79,6 +82,7 @@ export default {
       },
       {
         id: 4,
+        otherId: 1004,
         views: '476',
         likes: '88',
         title: '美团买菜前端暑期实习SP',
@@ -103,6 +107,7 @@ export default {
       },
       {
         id: 5,
+        otherId: 1005,
         views: '555',
         likes: '105',
         title: '快手主站前端四面复盘',
@@ -127,6 +132,7 @@ export default {
       },
       {
         id: 6,
+        otherId: 1006,
         views: '398',
         likes: '74',
         title: '京东物流前端春招面经',
@@ -151,6 +157,7 @@ export default {
       },
       {
         id: 7,
+        otherId: 1007,
         views: '412',
         likes: '79',
         title: '蚂蚁保险前端实习三面',
@@ -175,6 +182,7 @@ export default {
       },
       {
         id: 8,
+        otherId: 1008,
         views: '256',
         likes: '51',
         title: 'B站漫画前端一面凉经',
@@ -196,6 +204,7 @@ export default {
       },
       {
         id: 9,
+        otherId: 1009,
         views: '722',
         likes: '138',
         title: '拼多多买菜前端秋招SP',
@@ -220,6 +229,7 @@ export default {
       },
       {
         id: 10,
+        otherId: 1010,
         views: '465',
         likes: '85',
         title: '网易有道前端实习复盘',
@@ -244,6 +254,7 @@ export default {
       },
       {
         id: 11,
+        otherId: 1011,
         views: '512',
         likes: '93',
         title: '小米汽车前端提前批面经',
@@ -268,6 +279,7 @@ export default {
       },
       {
         id: 12,
+        otherId: 1012,
         views: '428',
         likes: '77',
         title: '滴滴国际化前端三面',
@@ -292,6 +304,7 @@ export default {
       },
       {
         id: 13,
+        otherId: 1013,
         views: '298',
         likes: '55',
         title: '携程机票前端实习凉经',
@@ -313,6 +326,7 @@ export default {
       },
       {
         id: 14,
+        otherId: 1014,
         views: '389',
         likes: '72',
         title: '新浪微博前端社招复盘',
@@ -337,6 +351,7 @@ export default {
       },
       {
         id: 15,
+        otherId: 1015,
         views: '456',
         likes: '86',
         title: '商汤科技前端实习三面',
@@ -361,6 +376,7 @@ export default {
       },
       {
         id: 16,
+        otherId: 1016,
         views: '502',
         likes: '91',
         title: '知乎前端校招面经',
@@ -385,6 +401,7 @@ export default {
       },
       {
         id: 17,
+        otherId: 1017,
         views: '437',
         likes: '80',
         title: '贝壳找房前端暑期实习',
@@ -409,6 +426,7 @@ export default {
       },
       {
         id: 18,
+        otherId: 1018,
         views: '267',
         likes: '48',
         title: '讯飞前端实习一面凉经',
@@ -430,6 +448,7 @@ export default {
       },
       {
         id: 19,
+        otherId: 1019,
         views: '488',
         likes: '89',
         title: 'OPPO互联网前端SP',
@@ -454,6 +473,7 @@ export default {
       },
       {
         id: 20,
+        otherId: 1020,
         views: '415',
         likes: '78',
         title: '深信服前端校招复盘',
@@ -478,6 +498,7 @@ export default {
       },
       {
         id: 21,
+        otherId: 1021,
         views: '492',
         likes: '69',
         title: '宇宙头条校招前端面经',

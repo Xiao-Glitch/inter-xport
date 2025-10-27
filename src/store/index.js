@@ -5,6 +5,8 @@ import articlteX from './modules/articlteX'
 import likes from './modules/likes'
 import collects from './modules/collects'
 import history from './modules/history.js'
+import comment from './modules/comment'
+import follow from './modules/follow'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -13,6 +15,8 @@ export default new Vuex.Store({
     articlteX,
     likes,
     collects,
-    history
+    history,
+    comment,
+    follow
   }
 })

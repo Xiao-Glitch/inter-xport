@@ -4,6 +4,7 @@ export default {
     artList: [
       {
         id: 1,
+        otherId: 1001,
         views: '533',
         likes: '96',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -14,6 +15,7 @@ export default {
       },
       {
         id: 2,
+        otherId: 1002,
         views: '618',
         likes: '112',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -24,6 +26,7 @@ export default {
       },
       {
         id: 3,
+        otherId: 1003,
         views: '289',
         likes: '58',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -34,6 +37,7 @@ export default {
       },
       {
         id: 4,
+        otherId: 1004,
         views: '476',
         likes: '88',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -44,6 +48,7 @@ export default {
       },
       {
         id: 5,
+        otherId: 1005,
         views: '555',
         likes: '105',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -54,6 +59,7 @@ export default {
       },
       {
         id: 6,
+        otherId: 1006,
         views: '398',
         likes: '74',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -64,6 +70,7 @@ export default {
       },
       {
         id: 7,
+        otherId: 1007,
         views: '412',
         likes: '79',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -74,6 +81,7 @@ export default {
       },
       {
         id: 8,
+        otherId: 1008,
         views: '256',
         likes: '51',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -84,6 +92,7 @@ export default {
       },
       {
         id: 9,
+        otherId: 1009,
         views: '722',
         likes: '138',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -94,6 +103,7 @@ export default {
       },
       {
         id: 10,
+        otherId: 1010,
         views: '465',
         likes: '85',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -104,6 +114,7 @@ export default {
       },
       {
         id: 11,
+        otherId: 1011,
         views: '512',
         likes: '93',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -114,6 +125,7 @@ export default {
       },
       {
         id: 12,
+        otherId: 1012,
         views: '428',
         likes: '77',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -124,6 +136,7 @@ export default {
       },
       {
         id: 13,
+        otherId: 1013,
         views: '298',
         likes: '55',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -134,6 +147,7 @@ export default {
       },
       {
         id: 14,
+        otherId: 1014,
         views: '389',
         likes: '72',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -144,6 +158,7 @@ export default {
       },
       {
         id: 15,
+        otherId: 1015,
         views: '456',
         likes: '86',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -154,6 +169,7 @@ export default {
       },
       {
         id: 16,
+        otherId: 1016,
         views: '502',
         likes: '91',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -164,6 +180,7 @@ export default {
       },
       {
         id: 17,
+        otherId: 1017,
         views: '437',
         likes: '80',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -174,6 +191,7 @@ export default {
       },
       {
         id: 18,
+        otherId: 1018,
         views: '267',
         likes: '48',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -184,6 +202,7 @@ export default {
       },
       {
         id: 19,
+        otherId: 1019,
         views: '488',
         likes: '89',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -194,6 +213,7 @@ export default {
       },
       {
         id: 20,
+        otherId: 1020,
         views: '415',
         likes: '78',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
@@ -204,6 +224,7 @@ export default {
       },
       {
         id: 21,
+        otherId: 1021,
         views: '492',
         likes: '69',
         avg: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',

@@ -27,7 +27,10 @@
               <img src="../assets/avatar.png" alt="">
               <span>作者: {{ item.other }}</span>
             </p>
-            <van-button icon="plus" size="mini" type="info">关注</van-button>
+            <van-button :icon="follow ? 'success' : 'plus'" size="mini" type="info" @click="adtFollow">
+              <span v-if="!follow"> 关注 </span>
+              <span v-else> 已关注 </span>
+            </van-button>
           </div>
       </header>
       <hr />
@@ -49,6 +52,7 @@ import likes from '@/store/modules/likes'
 import articleltes from '@/store/modules/articleltes'
 import history from '@/store/modules/history'
 import CommentItem from '@/components/CommentItem'
+import follow from '@/store/modules/follow'
 import { Toast } from 'vant'
 export default {
   name: 'Detail-view',
@@ -63,6 +67,8 @@ export default {
       isfinished: false,
       like: false,
       star: false,
+      follow: false,
+      otherId: '',
       searchInput: ''
     }
   },
@@ -76,6 +82,7 @@ export default {
       // console.log(list)
       const tar = articleltes.state.artList.filter(item => item.id === this.detail[0].id)
       // console.log(tar)
+      this.otherId = tar[0].otherId
       history.mutations.addHistory(history.state, tar[0])
     },
     onLoad () {
@@ -107,6 +114,13 @@ export default {
       // console.log('starSearch', collects.state.colls.some(item => item.id === this.detailID))
       // console.log('starSearch', this.star)
     },
+    followSearch () {
+      if (follow.state.follows.some(item => item.otherId === this.otherId)) {
+        this.follow = !this.follow
+      }
+      // console.log('followSearch', follow.state.follows.some(item => item.otherId === this.detailID))
+      // console.log('followSearch', this.follow)
+    },
 
     adtLike () {
       if (localStorage.getItem('token')) {
@@ -120,7 +134,7 @@ export default {
           this.like = !this.like
           this.detail[0].likes = Number(this.detail[0].likes) - 1
           // likes.state.likes = likes.state.likes.filter(item => item.id !== this.detailID)
-          likes.mutations.removeLike(likes.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
+          likes.mutations.removeFollow(follow.state, follow.state.follows.filter(item => item.otherId === this.otherId))
           Toast('已取消点赞')
           console.log(this.like)
         }
@@ -146,12 +160,26 @@ export default {
       } else {
         Toast('请先登录')
       }
+    },
+    adtFollow () {
+      if (!this.follow) {
+        follow.mutations.addFollow(follow.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
+        this.follow = !this.follow
+        Toast('关注成功')
+      } else if (this.follow) {
+        // document.querySelector('.van-button__content span').style.display = 'none'
+        follow.mutations.removeFollow(follow.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
+        this.follow = !this.follow
+        alert('已取消关注')
+      }
     }
   },
   mounted () {
+    window.scrollTo(0, 0)
     this.getDetail()
     this.likeSearch()
     this.starSearch()
+    this.followSearch()
     const searchInput = document.querySelector('.search-input')
     searchInput.addEventListener('focus', function () {
       searchInput.style.width = '128px'
@@ -159,8 +187,6 @@ export default {
     searchInput.addEventListener('blur', function () {
       searchInput.style.width = '78px'
     })
-    // console.log(this.detailID)
-    // console.log(this.like)
   }
 }
 </script>
@@ -170,13 +196,14 @@ input[type="search"]::-webkit-search-cancel-button {
   display: none !important;
 }
 .detail-view {
-  height: 750px;
+  // height: 750px;
+  height: 100%;
   margin-top: 8px;
   // overflow: hidden;
   padding: 0 15px;
   position: relative;
   .detail-warp {
-    height: 705px;
+    // height: 705px;
     .header {
       h1 {
         font-size: 22px;

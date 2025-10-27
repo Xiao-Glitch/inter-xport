@@ -112,8 +112,14 @@ export default {
         margin: 0 4px;
       }
     }
-    .like {
-      border-right: 1px solid #999;
+    .like::after {
+      content: '';
+      position: relative;
+      top: 0;
+      left: 6px;
+      width: 1px;
+      height: 12px;
+      background: #999;
     }
 
   }

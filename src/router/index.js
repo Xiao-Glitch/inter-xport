@@ -40,6 +40,10 @@ const routes = [
       {
         path: 'user',
         component: () => import('@/views/layout/user.vue')
+      },
+      {
+        path: 'notify',
+        component: () => import('@/views/notify.vue')
       }
     ]
   },
