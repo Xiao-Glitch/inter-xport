@@ -238,6 +238,15 @@ export default {
   },
   getters: {
     getArticleList: state => state.artList,
+
+    searchList: state => keywords => {
+      if (!keywords) return state.artList
+      const kw = keywords.toLowerCase()
+      return state.artList.filter(item =>
+        item.title.toLowerCase().includes(kw) ||
+        item.content.toLowerCase().includes(kw)
+      ).slice(0, 10)
+    },
     hasMore (state) {
       return !state.fetched || state.artList.length === 0
     }

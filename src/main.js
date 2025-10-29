@@ -5,6 +5,7 @@ import router from './router'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 import 'vant/lib/index.less'
+import '@/assets/css/index.less'
 import ArticleItem from './components/ArticleItem.vue'
 
 Vue.component('ArticleItem', ArticleItem)

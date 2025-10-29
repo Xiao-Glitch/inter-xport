@@ -9,7 +9,7 @@
       <template #right>
         <van-icon name="search" size="18" @click="toSearch">
         </van-icon>
-        <input class="search-input" type="search" placeholder="搜索" v-model="searchInput"/>
+        <input class="search-input" type="search" placeholder="搜索" @keyup.enter="toSearch" v-model="searchInput"/>
       </template>
     </van-nav-bar>
     <van-pull-refresh v-model="isLoding" success-text="刷新成功" @refresh="onRefresh">
@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import router from '@/router'
 import articlteX from '@/store/modules/articlteX'
 import collects from '@/store/modules/collects'
 import likes from '@/store/modules/likes'
@@ -97,8 +98,18 @@ export default {
       }, 1200)
     },
     toSearch () {
-      console.log(this.searchInput.trim())
-      this.searchInput = ''
+      const vl = this.searchInput.trim()
+      if (vl) {
+        setTimeout(() => {
+          router.push({
+            path: '/search',
+            query: {
+              keywords: vl
+            }
+          })
+        }, 200)
+        this.searchInput = ''
+      }
     },
     likeSearch () {
       if (likes.state.likes.some(item => item.id === this.detailID)) {
@@ -212,7 +223,7 @@ input[type="search"]::-webkit-search-cancel-button {
         font-size: 20px;
       }
       p {
-        color: #999;
+        color: var(--color-grey);
         font-size: 12px;
         display: flex;
         align-items: center;
@@ -257,11 +268,12 @@ input[type="search"]::-webkit-search-cancel-button {
     font-size: 12px;
     width: 78px;
     border-radius: 8px;
-    border: 1px solid #999;
+    border: 1px solid var(--color-grey);
+    transition: all 0.8s;
   }
   hr {
     border: none;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--color-greyWhite);
     margin-top: 32px;
     margin-bottom: 32px;
   }
@@ -275,17 +287,17 @@ input[type="search"]::-webkit-search-cancel-button {
     bottom: 36px;
     right: 52px;
     > .van-icon {
-      background: #fff;
+      background: var(--color-white);
       width: 40px;
       height: 40px;
       line-height: 40px;
       text-align: center;
       border-radius: 50%;
-      box-shadow: 2px 2px 10px #ccc;
+      box-shadow: 2px 2px 10px var(--color-greyWhite);
       font-size: 18px;
       &.active {
         background: #fec635;
-        color: #fff;
+        color: var(--color-white);
       }
     }
   }

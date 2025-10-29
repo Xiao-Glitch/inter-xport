@@ -44,6 +44,10 @@ const routes = [
       {
         path: 'notify',
         component: () => import('@/views/notify.vue')
+      },
+      {
+        path: '/search',
+        component: () => import('@/views/search.vue')
       }
     ]
   },
