@@ -6,6 +6,7 @@ export default {
       {
         id: 1,
         otherId: 1001,
+        articleId: '20230421001',
         views: '533',
         likes: '96',
         other: '风里追风',
@@ -33,6 +34,7 @@ export default {
       {
         id: 2,
         otherId: 1002,
+        articleId: '20220129001',
         views: '618',
         likes: '112',
         title: '腾讯WXG前端实习三面记录',
@@ -60,6 +62,7 @@ export default {
       {
         id: 3,
         otherId: 1003,
+        articleId: '20220623001',
         views: '289',
         likes: '58',
         title: '字节抖音电商前端凉经',
@@ -83,6 +86,7 @@ export default {
       {
         id: 4,
         otherId: 1004,
+        articleId: '20220224001',
         views: '476',
         likes: '88',
         title: '美团买菜前端暑期实习SP',
@@ -108,6 +112,7 @@ export default {
       {
         id: 5,
         otherId: 1005,
+        articleId: '20230225001',
         views: '555',
         likes: '105',
         title: '快手主站前端四面复盘',
@@ -133,6 +138,7 @@ export default {
       {
         id: 6,
         otherId: 1006,
+        articleId: '20220726001',
         views: '398',
         likes: '74',
         title: '京东物流前端春招面经',
@@ -158,6 +164,7 @@ export default {
       {
         id: 7,
         otherId: 1007,
+        articleId: '20220727001',
         views: '412',
         likes: '79',
         title: '蚂蚁保险前端实习三面',
@@ -183,6 +190,7 @@ export default {
       {
         id: 8,
         otherId: 1008,
+        articleId: '20220928001',
         views: '256',
         likes: '51',
         title: 'B站漫画前端一面凉经',
@@ -205,6 +213,7 @@ export default {
       {
         id: 9,
         otherId: 1009,
+        articleId: '20250129001',
         views: '722',
         likes: '138',
         title: '拼多多买菜前端秋招SP',
@@ -230,6 +239,7 @@ export default {
       {
         id: 10,
         otherId: 1010,
+        articleId: '20250430001',
         views: '465',
         likes: '85',
         title: '网易有道前端实习复盘',
@@ -255,6 +265,7 @@ export default {
       {
         id: 11,
         otherId: 1011,
+        articleId: '20250621001',
         views: '512',
         likes: '93',
         title: '小米汽车前端提前批面经',
@@ -280,6 +291,7 @@ export default {
       {
         id: 12,
         otherId: 1012,
+        articleId: '20220212001',
         views: '428',
         likes: '77',
         title: '滴滴国际化前端三面',
@@ -305,6 +317,7 @@ export default {
       {
         id: 13,
         otherId: 1013,
+        articleId: '20220223001',
         views: '298',
         likes: '55',
         title: '携程机票前端实习凉经',
@@ -327,6 +340,7 @@ export default {
       {
         id: 14,
         otherId: 1014,
+        articleId: '20220204001',
         views: '389',
         likes: '72',
         title: '新浪微博前端社招复盘',
@@ -352,6 +366,7 @@ export default {
       {
         id: 15,
         otherId: 1015,
+        articleId: '20220205001',
         views: '456',
         likes: '86',
         title: '商汤科技前端实习三面',
@@ -377,6 +392,7 @@ export default {
       {
         id: 16,
         otherId: 1016,
+        articleId: '20220206001',
         views: '502',
         likes: '91',
         title: '知乎前端校招面经',
@@ -402,6 +418,7 @@ export default {
       {
         id: 17,
         otherId: 1017,
+        articleId: '20220207001',
         views: '437',
         likes: '80',
         title: '贝壳找房前端暑期实习',
@@ -427,6 +444,7 @@ export default {
       {
         id: 18,
         otherId: 1018,
+        articleId: '20220208001',
         views: '267',
         likes: '48',
         title: '讯飞前端实习一面凉经',
@@ -449,6 +467,7 @@ export default {
       {
         id: 19,
         otherId: 1019,
+        articleId: '20220209001',
         views: '488',
         likes: '89',
         title: 'OPPO互联网前端SP',
@@ -474,6 +493,7 @@ export default {
       {
         id: 20,
         otherId: 1020,
+        articleId: '20220210001',
         views: '415',
         likes: '78',
         title: '深信服前端校招复盘',
@@ -499,6 +519,7 @@ export default {
       {
         id: 21,
         otherId: 1021,
+        articleId: '20220120001',
         views: '492',
         likes: '69',
         title: '宇宙头条校招前端面经',

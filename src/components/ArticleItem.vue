@@ -12,7 +12,7 @@
       </div>
     </template>
     <template #label>
-      <div  class="body van-multi-ellipsis--l2" @click="goDetail(item.id)">
+      <div  class="body van-multi-ellipsis--l2" @click="goDetail(item.id,item.otherId)">
         {{ item.content }}
       </div>
       <div class="foot">
@@ -50,12 +50,13 @@ export default {
   },
 
   methods: {
-    goDetail (id) {
+    goDetail (id, otherId) {
       setTimeout(() => {
         router.push({
           path: '/detail',
           query: {
-            id
+            id,
+            otherId
           }
         })
       }, 200)

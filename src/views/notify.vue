@@ -152,8 +152,10 @@ export default {
 
 <style scoped lang="less">
 :deep {
-  .vsn-button--primary {
-    background-color: #FA6D1D;
+  .van-button--primary {
+    background-color: var(--color-primary);
+    color: #fff;
+    border: 1px solid var(--color-primary);
   }
 }
 .msg-page {
@@ -168,16 +170,21 @@ export default {
   margin-right: 12px;
 }
 .title {
+  // display: flex;
   position: relative;
   padding-left: 8px;
 }
 .dot {
-  position: absolute;
-  left: -8px;
-  top: 4px;
-  width: 8px;
-  height: 8px;
-  background: #ee0a24;
-  border-radius: 50%;
+  font-size: 14px;
+  &::before {
+    content: "";
+    position: absolute;
+    left: -4px;
+    top: 4px;
+    width: 4px;
+    height: 4px;
+    background: #ee0a24;
+    border-radius: 50%;
+  }
 }
 </style>

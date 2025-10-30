@@ -156,6 +156,7 @@ export default {
         this.list.push(...arList)
         this.asLoading = false
         // console.log('srl长度=', this.srl.length, 'start=', start)
+        // console.log(this.srl)
         if (this.list.length >= this.srl.length) {
           this.isfinished = true
         }

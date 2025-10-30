@@ -40,7 +40,7 @@
         <van-icon :name="like ? 'like' : 'like-o'" @click="adtLike()" color="#FF3333"></van-icon>
         <van-icon :name="star ? 'star' : 'star-o'" @click="adtCollect()" color="#fec635"></van-icon>
       </div>
-      <CommentItem></CommentItem>
+      <CommentItem :arId="articleId"></CommentItem>
     </van-pull-refresh>
   </div>
 </template>
@@ -70,6 +70,7 @@ export default {
       star: false,
       follow: false,
       otherId: '',
+      articleId: '',
       searchInput: ''
     }
   },
@@ -77,10 +78,12 @@ export default {
   methods: {
     getDetail () {
       this.detailID = Number(this.$route.query.id)
+      this.otherId = Number(this.$route.query.otherId)
       const list = articlteX.state.arxLists
-      // console.log(this.detailID)
       this.detail = list.filter(item => item.id === this.detailID)
-      // console.log(list)
+      this.articleId = this.detail[0].articleId
+      console.log(this.detailID, this.otherId, this.articleId)
+      // console.log(this.detail)
       const tar = articleltes.state.artList.filter(item => item.id === this.detail[0].id)
       // console.log(tar)
       this.otherId = tar[0].otherId
@@ -145,9 +148,9 @@ export default {
           this.like = !this.like
           this.detail[0].likes = Number(this.detail[0].likes) - 1
           // likes.state.likes = likes.state.likes.filter(item => item.id !== this.detailID)
-          likes.mutations.removeFollow(follow.state, follow.state.follows.filter(item => item.otherId === this.otherId))
+          likes.mutations.removeLike(likes.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
           Toast('已取消点赞')
-          console.log(this.like)
+          // console.log(this.like)
         }
       } else {
         Toast('请先登录')
@@ -166,7 +169,7 @@ export default {
           this.detail[0].views = Number(this.detail[0].views) - 1
           collects.mutations.removeColl(collects.state, articleltes.state.artList.filter(item => item.id === this.detailID)[0])
           Toast('已取消收藏')
-          console.log(this.star)
+          // console.log(this.star)
         }
       } else {
         Toast('请先登录')
@@ -278,11 +281,12 @@ input[type="search"]::-webkit-search-cancel-button {
     margin-bottom: 32px;
   }
   .opt {
-    // position: fixed;
-    position: absolute;
+    position: fixed;
+    // position: absolute;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 99999;
     width: 130px;
     bottom: 36px;
     right: 52px;

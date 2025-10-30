@@ -9,7 +9,7 @@ import comment from './modules/comment'
 import follow from './modules/follow'
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
   modules: {
     articleltes,
     articlteX,
@@ -20,3 +20,8 @@ export default new Vuex.Store({
     follow
   }
 })
+
+// 初始化评论数据
+store.dispatch('comment/initComments')
+
+export default store

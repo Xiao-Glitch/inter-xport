@@ -10,28 +10,33 @@
         </div>
         <div class="comment-input">
           <div class="rich-input">
-            <div class="input" contenteditable="true" spellcheck="false" placeholder="输入评论..."></div>
+            <div class="input"
+              ref="input"
+              contenteditable="true"
+              spellcheck="false"
+              @focus="onFocus"
+              @blur="onBlur"
+              placeholder="输入评论..." />
           </div>
           <div class="action-box">
-            <div class="submit">
+            <div class="submit" ref="submit">
               <span @click="submitComment">发送</span>
             </div>
           </div>
         </div>
       </div>
     </div>
-  <div class="comment-list-box">
-    <!-- 排序 -->
-    <van-tabs v-model="sort" shrink color="#1e80ff" line-width="20px">
+    <van-tabs v-model="sort" shrink color="#1e80ff" line-width="20px" @change="onTabChange">
       <van-tab name="hot" title="最热" />
       <van-tab name="new" title="最新" />
     </van-tabs>
-
+  <div class="comment-list-box">
+    <!-- 排序 -->
     <!-- 列表 -->
     <van-list
       v-model="loading"
       :finished="finished"
-      finished-text="没有更多了"
+      finished-text=""
       @load="onLoad"
     >
       <van-swipe-cell
@@ -58,32 +63,42 @@
 
             <!-- 二级评论 -->
             <div v-if="item.children && item.children.length" class="sub-box">
-              <div
-                v-for="sub in item.children"
-                :key="sub.id"
-                class="sub-item"
-                @click.stop="reply(sub, item)"
-              >
-                <span class="sub-name">{{ sub.name }}:</span>&nbsp;
-                <span class="sub-con">{{ sub.content }}</span>
-                <div class="tl">
-                  <div class="comment" @click="onComment" contenteditable="true">
-                    <van-icon name="comment-o">
-                    </van-icon>
+              <div class="sub-list" :style="{ height: showComment ? '125px' : 'auto'}">
+                  <div
+                  v-for="sub in item.children"
+                  :key="sub.id"
+                  class="sub-item"
+                  @click.stop="reply(sub, item)"
+                >
+                  <span class="sub-name">{{ sub.name }}:</span>&nbsp;
+                  <span class="sub-con">{{ sub.content }}</span>
+                  <div class="tl">
+                    <div class="ttl">
+                      <div class="like" @click.stop="toggleLike(sub)">
+                        <van-icon
+                          :name="sub.liked ? 'good-job' : 'good-job-o'"
+                          :color="sub.liked ? '#ee0a24' : '#969799'"
+                        />
+                        <span>{{ sub.like }}</span>
+                      </div>
+                      <div class="comment" @click="onComment">
+                        <van-icon name="comment-o">
+                        </van-icon>
+                      </div>
+                    </div>
+                    <span class="sub-time">{{fmtTime(sub.time) }}</span>
                   </div>
-                  <span class="sub-time">{{fmtTime(sub.time) }}</span>
                 </div>
               </div>
               <div
                 v-if="item.childCount > 2"
                 class="sub-more"
-                @click.stop="showAllChild(item)"
+                @click.stop="showAllChild"
               >
                 共{{ item.childCount }}条回复 >
               </div>
             </div>
 
-            <!-- 底部工具栏 -->
             <div class="tool">
               <div class="like" @click.stop="toggleLike(item)">
                 <van-icon
@@ -92,9 +107,10 @@
                 />
                 <span>{{ item.like }}</span>
               </div>
-              <div class="comment"  @click="onComment" contenteditable="true">
-                <van-icon name="comment-o">
+              <div class="comment">
+                <van-icon name="comment-o" @click="onComment">
                 </van-icon>
+                <input class="comipt" type="text" :style="{display:iscomipt ? 'block' : 'none' }">
               </div>
             </div>
           </div>
@@ -116,6 +132,12 @@ dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 export default {
   name: 'CommentItem',
+  props: {
+    arId: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       commentInput: '',
@@ -123,29 +145,76 @@ export default {
       list: [],
       loading: false,
       finished: false,
+      showComment: true,
+      iscomipt: false,
       page: 1,
       delAction: [{ text: '删除', color: '#ee0a24' }]
     }
   },
   computed: {
     isEmpty () {
-      return !this.loading && this.list.length === 0
+      return this.loading && this.list.length === 0
     }
   },
   methods: {
+    onFocus () {
+      this.$refs.submit.style.top = '105px'
+      this.$refs.submit.style.right = '6px'
+    },
+    onBlur () {
+      this.$refs.submit.style.top = '7px'
+      this.$refs.submit.style.right = '0'
+      this.commentInput = this.$refs.input.textContent.trim()
+      if (!this.commentInput) {
+        this.$refs.input.textContent = ''
+      }
+    },
+    getComments () {
+      this.sort = !this.sort ? 'hot' : 'new'
+    },
     submitComment () {
-      console.log(this.commentInput)
-      this.commentInput = ''
-      Toast.success('评论成功')
+      if (this.commentInput) {
+        const newComment = {
+          id: Date.now(),
+          commentId: 'c' + Date.now(),
+          articleId: this.arId,
+          name: JSON.parse(localStorage.getItem('user')).username || '匿名用户',
+          avatar: require('../assets/avatar.png'),
+          content: this.commentInput,
+          time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+          like: 0,
+          liked: false,
+          children: [],
+          childCount: 0
+        }
+        // 提交到 Vuex 并自动同步 localStorage
+        this.$store.commit('comment/addComment', newComment)
+        this.list.unshift(newComment)
+        this.$refs.input.textContent = ''
+        this.commentInput = ''
+        Toast.success('评论成功')
+      }
     },
     onLoad () {
       setTimeout(() => {
-        const data = this.mockData()
+        // 获取当前文章的评论
+        let data = this.$store.getters['comment/getComments'](this.arId)
+        if (this.sort === 'new') {
+          // 最新：按时间倒序
+          data = [...data].sort((a, b) => new Date(b.time) - new Date(a.time))
+        } else {
+          // 最热：按点赞数倒序
+          data = [...data].sort((a, b) => b.like - a.like)
+        }
         if (this.page === 1) this.list = []
-        this.list.push(...data)
-        this.loading = false
-        if (this.page >= 3) this.finished = true
-        this.page++
+        data.forEach(item => {
+          this.list.push(item)
+        })
+        if (data.length === 0 || this.page >= 1) {
+          this.finished = true
+        } else {
+          this.page++
+        }
       }, 600)
     },
     onDel (item) {
@@ -156,7 +225,7 @@ export default {
       }
     },
     onComment () {
-      console.log(1)
+      this.iscomipt = !this.iscomipt
     },
     reply (item, parent) {
       this.$emit('reply', {
@@ -168,77 +237,47 @@ export default {
     toggleLike (item) {
       item.liked = !item.liked
       item.like += item.liked ? 1 : -1
+      // 更新评论到 Vuex和localStorage
+      const comments = this.$store.state.comment.comments
+      const idx = comments.findIndex(v => v.id === item.id)
+      if (idx > -1) {
+        this.$store.commit('comment/setComments', comments)
+      }
     },
-    showAllChild (item) {
-      Toast('展开全部回复（接口占位）')
+    showAllChild () {
+      this.showComment = !this.showComment
     },
     fmtTime (t) {
       return dayjs(t).from(dayjs())
     },
     mockData () {
-      const base = [
-        {
-          id: 9001,
-          name: '小卡拉蜜',
-          avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
-          content: '艾马特拉斯',
-          time: '2025-06-08 14:30:00',
-          like: 0,
-          liked: false,
-          children: [
-            {
-              id: 90011,
-              name: '安安',
-              content: '收到，谢谢提醒',
-              time: '2025-06-08 15:00:00'
-            },
-            {
-              id: 90012,
-              name: '安安',
-              content: '收到，谢谢提醒',
-              time: '2025-06-08 15:00:00'
-            }
-          ],
-          childCount: 4
-        },
-        {
-          id: 9002,
-          name: '安安说前端',
-          avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
-          content: 'WebStorm 激活教程已更新',
-          time: '2024-06-07 10:00:00',
-          like: 12,
-          liked: true,
-          children: [],
-          childCount: 0
-        }
-      ]
+      const base = []
       return base.map((v, i) => ({ ...v, id: v.id + this.page * 1000 + i }))
+    },
+    onTabChange (name) {
+      setTimeout(() => {
+        this.sort = name
+        this.page = 1
+        this.finished = false
+        this.list = []
+        this.onLoad()
+      }, 300)
     }
   },
   mounted () {
-    document.querySelector('.input').addEventListener('focus', (e) => {
-      document.querySelector('.submit').style.top = '105px'
-      document.querySelector('.submit').style.right = '6px'
-    })
-
-    document.querySelector('.input').addEventListener('blur', (e) => {
-      document.querySelector('.submit').style.top = '7px'
-      document.querySelector('.submit').style.right = '0'
-      this.commentInput = e.target.textContent.trim()
-      if (!this.commentInput) {
-        e.target.textContent = ''
-      }
-    })
+    // 页面加载时，优先从 Vuex（已自动同步 localStorage）获取评论
+    this.list = this.$store.getters['comment/getComments'](this.arId)
+  },
+  beforeDestroy () {
+    localStorage.setItem('comments', JSON.stringify(this.$store.state.comment.comments))
   }
 }
 </script>
-
 <style lang="less" scoped>
   .comment-container {
     // height: 100vh;
-    margin-top: 40px;
-    padding: 0 4vw;
+    margin:40px 0;
+    padding: 0 14px;
   }
   .comment-form {
     height: 100%;
@@ -294,26 +333,42 @@ export default {
       border-radius: 6px;
       font-size: 13px;
       color: var(--font-color);
-      .sub-item {
-        height: 58px;
-        line-height: 18px;
-        margin-bottom: 4px;
-        position: relative;
-        .sub-name {
-          color: #1e80ff;
-          margin-right: 4px;
-        }
-        .sub-con {
-          color: var(--font-color);
-        }
-        .tl {
-          display: flex;
-          justify-content: space-between;
-          margin: 0 10px;
-          margin-top: 14px;
-        }
-        .sub-time {
-          color: var(--color-grey);
+      .sub-list {
+        height: 125px;
+        overflow: hidden;
+        .sub-item {
+          height: 58px;
+          line-height: 18px;
+          margin-bottom: 4px;
+          position: relative;
+          .sub-name {
+            color: #1e80ff;
+            margin-right: 4px;
+          }
+          .sub-con {
+            color: var(--font-color);
+          }
+          .tl {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 10px;
+            margin-top: 14px;
+            .ttl {
+              display: flex;
+              .like {
+                display: flex;
+                align-items: center;
+                margin-right: 2px;
+                width: 30px;
+                gap: 4px;
+                font-size: 10px;
+                color: #969799;
+              }
+            }
+          }
+          .sub-time {
+            color: var(--color-grey);
+          }
         }
       }
       .sub-more {
@@ -337,6 +392,15 @@ export default {
         color: #969799;
       }
       .comment {
+        display: flex;
+        align-items: center;
+        .comipt {
+          border-radius: 6px;
+          font-size: 16px;
+          width: 80px;
+          border: 1px solid var(--color-grey);
+          transition: all 0.8s;
+        }
       }
     }
   }
@@ -363,7 +427,7 @@ export default {
         border-radius: 8px;
         overflow: hidden;
         border: 1px solid #999;
-        transition: all .5s;
+        transition: all .6s;
         &:empty::before {
           content: '请输入评论...';
           position: absolute;

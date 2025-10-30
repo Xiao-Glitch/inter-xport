@@ -1,7 +1,7 @@
 <template>
   <div class="layout-view">
-    <keep-alive :include="['article-view']">
-      <router-view></router-view>
+    <keep-alive>
+      <router-view :key="$route.fullPath"></router-view>
     </keep-alive>
 
     <van-tabbar route>

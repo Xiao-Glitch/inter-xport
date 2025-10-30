@@ -10,12 +10,12 @@ export default {
     addColl (state, pd) {
       state.colls.push(pd)
       localStorage.setItem('colls', JSON.stringify(state.colls))
-      console.log('colls', JSON.parse(localStorage.getItem('colls')))
+      // console.log('colls', JSON.parse(localStorage.getItem('colls')))
     },
     removeColl (state, pd) {
       state.colls = state.colls.filter(item => item.id !== pd.id)
       localStorage.setItem('colls', JSON.stringify(state.colls))
-      console.log('removecoll', JSON.parse(localStorage.getItem('colls')))
+      // console.log('removecoll', JSON.parse(localStorage.getItem('colls')))
     }
   }
 }
