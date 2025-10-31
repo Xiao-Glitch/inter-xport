@@ -1,5 +1,5 @@
 export default {
-  namepaced: true,
+  namespaced: true,
   name: 'articlteX',
   state: {
     arxLists: [

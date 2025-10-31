@@ -13,7 +13,7 @@
           <van-grid-item icon="bookmark-o" text="我的收藏" to="/home/collect" />
           <van-grid-item icon="thumb-circle-o" text="我的点赞" to="/home/like" />
           <van-grid-item icon="clock-o" text="历史记录" to="/home/history" />
-          <van-grid-item icon="setting-o" text="设置" to="/home/setting" />
+          <van-grid-item icon="setting-o" text="其他" to="/home/other" />
           <van-grid-item icon="setting-o" text="设置" to="/home/setting" />
         </van-grid>
 

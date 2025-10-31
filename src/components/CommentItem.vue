@@ -31,8 +31,6 @@
       <van-tab name="new" title="最新" />
     </van-tabs>
   <div class="comment-list-box">
-    <!-- 排序 -->
-    <!-- 列表 -->
     <van-list
       v-model="loading"
       :finished="finished"
@@ -61,11 +59,15 @@
             </div>
             <div class="contents">{{ item.content }}</div>
 
-            <!-- 二级评论 -->
+            <!-- <div class="reply-box">
+              <input v-model="item.replyInput" class="comipt" type="text" placeholder="回复..." />
+              <button class="reply-btn" @click.stop="submitReply(item)">回复</button>
+            </div> -->
+
             <div v-if="item.children && item.children.length" class="sub-box">
-              <div class="sub-list" :style="{ height: showComment ? '125px' : 'auto'}">
+              <div class="sub-list" :style="{ height: (showComment) ? '125px' : 'auto'}">
                   <div
-                  v-for="sub in item.children"
+                  v-for="(sub, idx) in item.children"
                   :key="sub.id"
                   class="sub-item"
                   @click.stop="reply(sub, item)"
@@ -81,7 +83,7 @@
                         />
                         <span>{{ sub.like }}</span>
                       </div>
-                      <div class="comment" @click="onComment">
+                      <div class="comment" @click="onComment(item.children[idx].id)">
                         <van-icon name="comment-o">
                         </van-icon>
                       </div>
@@ -93,9 +95,10 @@
               <div
                 v-if="item.childCount > 2"
                 class="sub-more"
-                @click.stop="showAllChild"
               >
-                共{{ item.childCount }}条回复 >
+                <span class="totls" :class="{ active: !showComment }" @click.stop="showAllChild(item, item.childCount)">共{{ item.childCount }}条回复</span>
+                <svg t="1761272730517" class="icon" :class="{active:!showComment}" @click.stop="showAllChild(item, item.childCount)"
+                  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3683" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><path d="M192 384l320 384 320-384H192z" fill="#303133" p-id="3684"></path></svg>
               </div>
             </div>
 
@@ -107,10 +110,14 @@
                 />
                 <span>{{ item.like }}</span>
               </div>
-              <div class="comment">
-                <van-icon name="comment-o" @click="onComment">
+              <div class="comment" :class="{ 'active' : item.commentId === iscomipt }">
+                <van-icon name="comment-o" @click="onComment(item.commentId)">
                 </van-icon>
-                <input class="comipt" type="text" :style="{display:iscomipt ? 'block' : 'none' }">
+                <input class="comipt"
+                  v-model="item.replyInput" type="text"
+                  @blur="cBlur(item)"
+                 :class="{ 'active' : item.commentId === iscomipt }">
+                 <button class="rely-btn" @click.stop="submitReply(item)">发送</button>
               </div>
             </div>
           </div>
@@ -146,7 +153,7 @@ export default {
       loading: false,
       finished: false,
       showComment: true,
-      iscomipt: false,
+      iscomipt: '',
       page: 1,
       delAction: [{ text: '删除', color: '#ee0a24' }]
     }
@@ -168,6 +175,10 @@ export default {
       if (!this.commentInput) {
         this.$refs.input.textContent = ''
       }
+    },
+    cBlur (item) {
+      this.iscomipt = ''
+      this.submitReply(item)
     },
     getComments () {
       this.sort = !this.sort ? 'hot' : 'new'
@@ -194,6 +205,31 @@ export default {
         this.commentInput = ''
         Toast.success('评论成功')
       }
+    },
+    submitReply (item) {
+      // console.log(item.commentId)
+      const val = item.replyInput && item.replyInput.trim()
+      if (!val) return Toast('请输入回复内容')
+      const reply = {
+        id: Date.now(),
+        name: JSON.parse(localStorage.getItem('user')).username || '匿名用户',
+        content: val,
+        time: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        like: 0,
+        liked: false
+      }
+      if (!item.children) item.children = []
+      item.children.push(reply)
+      item.childCount = item.children.length
+      item.replyInput = ''
+      // 同步到 Vuex 和 localStorage
+      const comments = this.$store.state.comment.comments
+      const idx = comments.findIndex(v => v.id === item.id)
+      if (idx > -1) {
+        comments[idx] = item
+        this.$store.commit('comment/setComments', comments)
+      }
+      Toast.success('回复成功')
     },
     onLoad () {
       setTimeout(() => {
@@ -224,8 +260,15 @@ export default {
         Toast('已删除')
       }
     },
-    onComment () {
-      this.iscomipt = !this.iscomipt
+    onComment (id) {
+      this.iscomipt = id
+      console.log(this.iscomipt)
+      // const artid = this.list.map(v => v.commentId)
+      // const artcid = this.list.map(v => v.children.map(c => c.id))
+      // console.log(artid, artcid)
+      if (id === 90015) {
+        console.log(id)
+      }
     },
     reply (item, parent) {
       this.$emit('reply', {
@@ -244,8 +287,11 @@ export default {
         this.$store.commit('comment/setComments', comments)
       }
     },
-    showAllChild () {
-      this.showComment = !this.showComment
+    showAllChild (item, id) {
+      if (item.childCount === id) {
+        this.showComment = !this.showComment
+      }
+      console.log(item)
     },
     fmtTime (t) {
       return dayjs(t).from(dayjs())
@@ -334,8 +380,9 @@ export default {
       font-size: 13px;
       color: var(--font-color);
       .sub-list {
-        height: 125px;
+        // height: 125px;
         overflow: hidden;
+        transition: all 0.8s;
         .sub-item {
           height: 58px;
           line-height: 18px;
@@ -372,12 +419,29 @@ export default {
         }
       }
       .sub-more {
+        display: flex;
+        align-items: center;
         margin-top: 4px;
         color: #1e80ff;
         cursor: pointer;
+        .totls {
+          transition: all 0.8s;
+          &.active {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+          }
+        }
+        .icon {
+          transition: all 0.8s;
+          &.active {
+            transform: rotateX(180deg);
+          }
+        }
       }
     }
     .tool {
+      height: 24px;
       margin-top: 8px;
       display: flex;
       align-items: center;
@@ -394,12 +458,40 @@ export default {
       .comment {
         display: flex;
         align-items: center;
+        width: 16px;
+        overflow: hidden;
+        &.active {
+          overflow: visible;
+          width: 190px;
+          .van-icon {
+            display: none;
+            width: 18px;
+          }
+        }
         .comipt {
-          border-radius: 6px;
-          font-size: 16px;
-          width: 80px;
+          // display: none;
+          width: 0px;
+          // overflow: hidden;
           border: 1px solid var(--color-grey);
           transition: all 0.8s;
+          &.active {
+            width: 120px;
+            // border-radius: 6px;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            font-size: 16px;
+          }
+        }
+        .rely-btn {
+          width: 42px;
+          height: 22px;
+          font-size: 12px;
+          background-color: #1e80ff;
+          color: var(--color-white);
+          border: 1px solid #1e80ff;
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+          // display: none;
         }
       }
     }

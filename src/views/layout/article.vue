@@ -14,7 +14,7 @@
       <a :class="{active:!isActive}" :style="{ '--x': '11vw'}"  href="javascript:;" @click="toggleNew">最新</a>
       <ul v-show="selectShow" class="select">
         <li v-for="item in urList" :key="item.id" >
-          <a :class="{ active: item.id === liId}" @click="getId(item.id)" href="JavaScript:"> {{ item.title }} </a>
+          <a :class="{ active: item.id === liId}" @click="ontab(item.id)" href="JavaScript:"> {{ item.title }} </a>
         </li>
       </ul>
       <div class="logo">
@@ -28,7 +28,7 @@
     </nav>
     <div class="nav-before">
       <div class="nav-list">
-        <a v-for="value in selectList" :key="value.id" href="JavaScript:" class="nav-item" :class="{ active: value.id === 2 }">
+        <a v-for="value in selectList" :key="value.id" href="JavaScript:" class="nav-item" :class="{ active: value.id === seId }" @click="onselect(value.id)">
           <div class="nav-span">
             <span>{{ value.name }}</span>
           </div>
@@ -75,7 +75,8 @@ export default {
       scrollTop: 0,
       selectShow: false,
       searchInput: '',
-      liId: 0,
+      liId: 1,
+      seId: 2,
       urList: [
         { id: 1, title: '首页' },
         { id: 2, title: 'AI Coding' },
@@ -190,8 +191,12 @@ export default {
     handleScroll: throttle(function () {
       this.temp = document.documentElement.scrollTop
     }, 200),
-    getId (id) {
+    ontab (id) {
       this.liId = id
+    },
+    onselect (id) {
+      this.seId = id
+      this.getNew()
     }
   },
   computed: {
