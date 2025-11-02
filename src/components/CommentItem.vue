@@ -65,7 +65,7 @@
             </div> -->
 
             <div v-if="item.children && item.children.length" class="sub-box">
-              <div class="sub-list" :style="{ height: (showComment) ? '125px' : 'auto'}">
+                <div class="sub-list" :style="{ height: (isCollapsed(item) ? '125px' : 'auto') }">
                   <div
                   v-for="(sub, idx) in item.children"
                   :key="sub.id"
@@ -96,8 +96,8 @@
                 v-if="item.childCount > 2"
                 class="sub-more"
               >
-                <span class="totls" :class="{ active: !showComment }" @click.stop="showAllChild(item, item.childCount)">共{{ item.childCount }}条回复</span>
-                <svg t="1761272730517" class="icon" :class="{active:!showComment}" @click.stop="showAllChild(item, item.childCount)"
+                <span class="totls" :class="{ active: !isCollapsed(item) }" @click.stop="showAllChild(item)">共{{ item.childCount }}条回复</span>
+                <svg t="1761272730517" class="icon" :class="{active:!isCollapsed(item)}" @click.stop="showAllChild(item)"
                   viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3683" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><path d="M192 384l320 384 320-384H192z" fill="#303133" p-id="3684"></path></svg>
               </div>
             </div>
@@ -152,7 +152,8 @@ export default {
       list: [],
       loading: false,
       finished: false,
-      showComment: true,
+      // 存放已展开的评论 id 列表，实现每条评论单独展开/收起
+      expanded: [],
       iscomipt: '',
       page: 1,
       delAction: [{ text: '删除', color: '#ee0a24' }]
@@ -164,6 +165,10 @@ export default {
     }
   },
   methods: {
+    // 判断当前项是否处于收起状态（true = 收起）
+    isCollapsed (item) {
+      return !this.expanded.includes(item.id)
+    },
     onFocus () {
       this.$refs.submit.style.top = '105px'
       this.$refs.submit.style.right = '6px'
@@ -287,11 +292,16 @@ export default {
         this.$store.commit('comment/setComments', comments)
       }
     },
-    showAllChild (item, id) {
-      if (item.childCount === id) {
-        this.showComment = !this.showComment
+    showAllChild (item) {
+      const idx = this.expanded.indexOf(item.id)
+      if (idx > -1) {
+        // 已展开 -> 收起
+        this.expanded.splice(idx, 1)
+      } else {
+        // 未展开 -> 展开
+        this.expanded.push(item.id)
       }
-      console.log(item)
+      console.log('toggle child for', item.id)
     },
     fmtTime (t) {
       return dayjs(t).from(dayjs())
