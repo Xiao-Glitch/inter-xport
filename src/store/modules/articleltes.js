@@ -1,5 +1,6 @@
 export default {
   name: 'articleltes',
+  namespaced: true,
   state: {
     artList: [
       // 前端相关 (8篇)
@@ -569,7 +570,7 @@ export default {
         other: '前端观察者',
         time: '2024-03-15',
         content: 'React、Vue、Angular三大框架最新对比，Next.js、Nuxt.js全栈框架强势崛起，看看你的技术栈排第几？',
-        category: 'rankings'
+        category: 'rank'
       },
       {
         id: 47,
@@ -581,7 +582,7 @@ export default {
         other: '技术风向标',
         time: '2024-03-10',
         content: 'TypeScript持续领跑，Rust异军突起，Python稳坐AI领域头把交椅，Java在企业级开发中依然坚挺。',
-        category: 'rankings'
+        category: 'rank'
       },
       {
         id: 48,
@@ -593,7 +594,7 @@ export default {
         other: '职场分析师',
         time: '2024-04-11',
         content: '2024年各技术岗位薪资水平、城市差异、企业类型对比，为你的职业规划提供参考。',
-        category: 'rankings'
+        category: 'rank'
       },
       {
         id: 49,
@@ -605,7 +606,7 @@ export default {
         other: '开源观察家',
         time: '2024-04-12',
         content: '2024年最受欢迎的开源项目TOP20，技术趋势、社区活跃度、商业价值分析。',
-        category: 'rankings'
+        category: 'rank'
       },
       {
         id: 50,
@@ -617,7 +618,7 @@ export default {
         other: '内容分析师',
         time: '2024-04-13',
         content: '全网技术博客影响力TOP50，内容质量、读者互动、商业价值综合评估。',
-        category: 'rankings'
+        category: 'rank'
       }
     ],
     fetched: false
@@ -632,6 +633,12 @@ export default {
         item.title.toLowerCase().includes(kw) ||
         item.content.toLowerCase().includes(kw)
       ).slice(0, 10)
+    },
+    getCategoryList: state => categoryName => {
+      return state.artList.filter(item => {
+        if (!item.category) return false
+        return item.category === categoryName
+      })
     },
     hasMore (state) {
       return !state.fetched || state.artList.length === 0

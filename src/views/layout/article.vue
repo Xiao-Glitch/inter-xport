@@ -14,7 +14,7 @@
       <a :class="{active:!isActive}" :style="{ '--x': '11vw'}"  href="javascript:;" @click="toggleNew">最新</a>
       <ul v-show="selectShow" class="select">
         <li v-for="item in urList" :key="item.id" >
-          <a :class="{ active: item.id === liId}" @click="ontab(item.id)" href="JavaScript:"> {{ item.title }} </a>
+          <a :class="{ active: item.id === liId}" @click="ontab(item.id, item.title)" href="JavaScript:"> {{ item.title }} </a>
         </li>
       </ul>
       <div class="logo">
@@ -75,7 +75,7 @@ export default {
       scrollTop: 0,
       selectShow: false,
       searchInput: '',
-      liId: 1,
+      liId: JSON.parse(sessionStorage.getItem('artTabId')) || 1,
       seId: 2,
       urList: [
         { id: 1, title: '首页' },
@@ -87,19 +87,19 @@ export default {
         { id: 7, title: 'AI 刷题' }
       ],
       selectList: [
-        { id: 1, name: '关注' },
-        { id: 2, name: '综合' },
-        { id: 3, name: '排行榜' },
-        { id: 4, name: '后端' },
-        { id: 5, name: '前端' },
-        { id: 6, name: 'Android' },
-        { id: 7, name: 'ios' },
-        { id: 8, name: '人工智能' },
-        { id: 9, name: '开发工具' },
-        { id: 10, name: '代码人生' },
-        { id: 11, name: '阅读' }
+        { id: 1, name: '关注', ename: 'follow' },
+        { id: 2, name: '综合', ename: 'recom' },
+        { id: 3, name: '排行榜', ename: 'rank' },
+        { id: 4, name: '后端', ename: 'backend' },
+        { id: 5, name: '前端', ename: 'frontend' },
+        { id: 6, name: 'Android', ename: 'android' },
+        { id: 7, name: 'ios', ename: 'ios' },
+        { id: 8, name: '人工智能', ename: 'ai' },
+        { id: 9, name: '开发工具', ename: 'tools' },
+        { id: 10, name: '代码人生', ename: 'career' },
+        { id: 11, name: '阅读', ename: 'reading' }
       ],
-      currentType: 'recom'
+      currentType: 'recomed'
     }
   },
   created () {
@@ -136,7 +136,7 @@ export default {
     },
     onRefresh () {
       // 刷新时根据当前类型重新加载数据
-      if (this.currentType === 'recom') {
+      if (this.currentType === 'recomed') {
         this.getRecom()
       } else {
         this.getNew()
@@ -164,8 +164,9 @@ export default {
       }, 1200)
     },
     getRecom () {
+      this.currentType = 'recomed'
+      this.seId = 2
       this.list = []
-      this.currentType = 'recom'
       this.srl = this.$store.state.articleltes.artList
       this.isfinished = false
       this.isActive = true
@@ -176,8 +177,9 @@ export default {
       })
     },
     getNew () {
-      this.list = []
       this.currentType = 'new'
+      this.seId = 2
+      this.list = []
       this.srl = articleltes.state.artList
         .slice()
         .sort((a, b) => new Date(b.time) - new Date(a.time))
@@ -191,17 +193,63 @@ export default {
     handleScroll: throttle(function () {
       this.temp = document.documentElement.scrollTop
     }, 200),
-    ontab (id) {
+    ontab (id, title) {
       this.liId = id
+      sessionStorage.setItem('artTabId', id)
+      if (this.liId === 1) {
+        router.push('/home/article')
+      } else {
+        router.push({
+          path: '/home/article',
+          query: {
+            id,
+            title
+          }
+        })
+      }
     },
     onselect (id) {
       this.seId = id
-      this.getNew()
+      // this.getNew()
+      const categoryName = this.selectList.find(item => item.id === id).ename
+      this.list = []
+      if (categoryName === 'follow') {
+        const others = JSON.parse(localStorage.getItem('follows')) || []
+        this.srl = []
+        others.forEach(item => {
+          const del = this.$store.state.articleltes.artList.filter(ite => ite.otherId === item.otherId && ite.otherId === item.otherId)
+          this.srl.push(...del)
+        })
+        console.log(this.srl)
+        this.isfinished = false
+        this.$nextTick(() => {
+          this.asLoading = true
+          this.onLoad()
+        })
+      } else {
+        this.isActive = true
+        this.currentType = 'recomed'
+      }
+      if (categoryName === 'recom') {
+        if (this.currentType === 'recomed') {
+          this.getRecom()
+        } else if (this.currentType === 'new') {
+          this.getNew()
+        }
+        return
+      }
+      this.srl = this.$store.getters['articleltes/getCategoryList'](categoryName)
+      this.isfinished = false
+      this.$nextTick(() => {
+        this.asLoading = true
+        this.onLoad()
+      })
+      // console.log(categoryName, this.list)
     }
   },
   computed: {
     xoffset () {
-      return this.currentType === 'recom' ? '-2vw' : '11vw'
+      return this.currentType === 'recomed' ? '-2vw' : '11vw'
     }
   },
   mounted () {

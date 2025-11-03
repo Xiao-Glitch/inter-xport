@@ -13,8 +13,8 @@
           <van-grid-item icon="bookmark-o" text="我的收藏" to="/home/collect" />
           <van-grid-item icon="thumb-circle-o" text="我的点赞" to="/home/like" />
           <van-grid-item icon="clock-o" text="历史记录" to="/home/history" />
-          <van-grid-item icon="setting-o" text="其他" to="/home/other" />
-          <van-grid-item icon="setting-o" text="设置" to="/home/setting" />
+          <van-grid-item icon="apps-o" text="其他" to="/home/other" />
+          <van-grid-item icon="setting-o" text="设置" to="/home/settings" />
         </van-grid>
 
         <van-cell-group class="mt20">
@@ -25,35 +25,25 @@
               :options="options"
               @select="showShare = false"
             />
-            <van-cell title="意见反馈" is-link />
-            <van-cell title="关于我们" is-link />
-            <van-cell v-show="!islogin" to='/login' title="去登录" is-link />
-            <van-cell v-show="islogin" @click="showPopup" title="退出登录" is-link />
-            <van-popup v-model="show" round closeable :style="{ height: '30%' }">
-              <div class="logout-warp">
-                <p>确定退出登录吗</p>
-                <div class="logout">
-                  <van-button type="primary" round block @click="show = false" :style="{ width: '30%' }">取消</van-button>
-                  <van-button type="danger" round block @click="logout" :style="{ width: '30%' }">退出登录</van-button>
-                </div>
-              </div>
-          </van-popup>
+          <van-cell title="意见反馈" is-link />
+          <van-cell title="关于我们" is-link />
+          <van-cell v-show="!islogin" to='/login' title="去登录" is-link />
+          <van-cell v-show="islogin" @click="logout" title="退出登录" is-link />
         </van-cell-group>
       </van-pull-refresh>
     </div>
 </template>
 
 <script>
-import { Toast } from 'vant'
+import { Toast, Dialog } from 'vant'
 import avatar from '@/assets/avatar.png'
 export default {
   name: 'User-view',
   data () {
     return {
-      username: JSON.parse(localStorage.getItem('user')).username || '',
-      avatar: avatar,
+      username: JSON.parse(localStorage.getItem('user')).name || '',
+      avatar: localStorage.getItem('user').avatar || avatar,
       isLoading: false,
-      show: false,
       showShare: false,
       border: false,
       islogin: false,
@@ -75,26 +65,29 @@ export default {
   },
   methods: {
     logout () {
-      this.show = false
-      const pops = document.getElementById('pops')
-      pops.style.display = 'block'
-      setTimeout(() => {
-        pops.style.display = 'none'
-        Toast.success('退出登录成功')
-        this.islogin = false
-        localStorage.removeItem('token')
-        localStorage.setItem('islogin', false)
-        setTimeout(() => {
-          this.$router.push('/login')
-        }, 500)
-      }, 1400)
+      Dialog.confirm({
+        title: '提示',
+        message: '确定退出登录？'
+      })
+        .then(() => {
+          // 先提示用户
+          Toast.loading({
+            message: '正在退出...',
+            forbidClick: true,
+            duration: 800
+          })
+          // 延时后再清理并跳转
+          setTimeout(() => {
+            this.$store.commit('user/CLEAR')
+            localStorage.clear()
+            this.$router.replace('/login')
+          }, 800)
+        })
+        .catch(() => {})
     },
     onselect (options) {
       Toast(options.name)
       this.showShare = false
-    },
-    showPopup () {
-      this.show = true
     },
     onRefresh () {
       setTimeout(() => {
@@ -147,24 +140,6 @@ export default {
       position: fixed;
       top: 50%;
       left: 42%;
-    }
-  }
-  .logout-warp {
-    width: 330px;
-    height: 162px;
-    p {
-      text-align: center;
-      font-size: 24px;
-      font-weight: 400;
-      color: #646566;
-      margin-bottom: 20px;
-    }
-    .logout {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      justify-content: space-around;
-      align-items: flex-end;
     }
   }
 }

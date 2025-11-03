@@ -38,9 +38,9 @@
         v-if="activeTab === 'all' || activeTab === 'article'"
         class="card-group"
       >
-        <article-card
+        <ArticleItem
           v-for="item in articleList"
-          :key="'a' + item.id"
+          :key="item.id"
           :item="item"
         />
       </div>
@@ -79,14 +79,15 @@
 </template>
 
 <script>
-import ArticleCard from '@/components/ArticleCard.vue'
+// import ArticleCard from '@/components/ArticleCard.vue'
+import ArticleItem from '@/components/ArticleItem.vue'
 import CourseCard from '@/components/CourseCard.vue'
 import TagCard from '@/components/TagCard.vue'
 import UserCard from '@/components/UserCard.vue'
 
 export default {
   name: 'SearchPage',
-  components: { ArticleCard, CourseCard, TagCard, UserCard },
+  components: { ArticleItem, CourseCard, TagCard, UserCard },
   data () {
     return {
       keywords: '',
@@ -164,24 +165,7 @@ export default {
       }, 600)
     },
     mockFetch () {
-      const articles = [
-        {
-          id: 10001,
-          title: 'Ubuntu Pycharm永久激活方法，附补丁链接',
-          author: '小卡拉蜜',
-          date: '5年前',
-          tag: 'Linux',
-          star: 202
-        },
-        {
-          id: 10002,
-          title: '【2023最新】webstorm激活码安装激活永久教程',
-          author: '安安说前端',
-          date: '2年前',
-          tag: '网络风暴',
-          star: 118
-        }
-      ]
+      const articles = this.$store.getters['articleltes/getArticleList']
       const courses = [
         {
           id: 20001,

@@ -54,7 +54,7 @@ export default {
         this.username = this.password = ''
         this.isLoading = true
         setTimeout(() => {
-          Toast.success('注册成功 正在为您跳转到登录页面')
+          Toast.success('注册成功...')
           this.isLoading = false
           setTimeout(() => {
             Toast.clear()

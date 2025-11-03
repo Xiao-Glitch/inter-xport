@@ -16,7 +16,9 @@
       offset-top="46"
       animated
       swipeable
+      title-active-color="#222"
       color="#4169FF"
+      line-width="18px"
     >
       <van-tab name="all" title="全部" :badge="unReadCount" />
       <van-tab name="at" title="@我" />
@@ -85,7 +87,9 @@ export default {
       return map[this.activeTab]
     },
     unReadCount () {
-      return this.list.filter((v) => !v.read).length
+      const count = this.list.filter((v) => !v.read).length
+      this.$emit('cont', count)
+      return count
     },
     isEmpty () {
       return !this.loading && this.currentList.length === 0
@@ -98,8 +102,9 @@ export default {
         if (this.page === 1) this.list = []
         this.list.push(...data)
         this.loading = false
-        if (this.page >= 3) this.finished = true
-        this.page++
+        this.finished = true
+        // if (this.page >= 2) this.finished = true
+        // this.page++
       }, 600)
     },
     allRead () {
@@ -122,7 +127,7 @@ export default {
           title: '小卡拉蜜',
           desc: '兄弟，这个激活码能行吗？',
           time: '刚刚',
-          avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
+          avatar: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
           read: false
         },
         {
@@ -131,7 +136,7 @@ export default {
           title: '安安说前端',
           desc: '赞了你的文章《WebStorm 永久激活教程》',
           time: '2小时前',
-          avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
+          avatar: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
           read: false
         },
         {
@@ -140,8 +145,8 @@ export default {
           title: '后端架构进阶',
           desc: '@你 来看看 Navicat 新教程',
           time: '昨天',
-          avatar: 'https://img.yzcdn.cn/vant/cat.jpeg',
-          read: true
+          avatar: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
+          read: false
         }
       ]
       return base.map((v, i) => ({ ...v, id: v.id + this.page * 100 + i }))

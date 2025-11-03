@@ -9,7 +9,19 @@
       @load="onLoad"
     >
       <div v-for="item in list" :key="item.id">
-        <ArticleItem :item="item"></ArticleItem>
+        <van-swipe-cell>
+          <ArticleItem :item="item"></ArticleItem>
+          <template #right>
+            <van-button
+              type="danger"
+              class="delete-button"
+              @click="removeHistory(item)"
+            >
+              删除
+            </van-button>
+
+          </template>
+        </van-swipe-cell>
       </div>
     </van-list>
   </div>
@@ -18,6 +30,7 @@
 <script>
 import ArticleItem from '@/components/ArticleItem.vue'
 import history from '@/store/modules/history'
+import { Toast } from 'vant'
 
 export default {
   name: 'history-views',
@@ -38,16 +51,21 @@ export default {
         const start = this.list.length
         const arList = srl.slice(start, start + 5)
         this.list.push(...arList)
-        this.asLoading = false
+        this.Loading = false
 
         if (this.list.length >= srl.length) {
-          this.isfinished = true
+          this.finished = true
         }
       }, 1500)
+    },
+    removeHistory (item) {
+      this.$store.commit('history/removeHistory', item)
+      this.list = this.$store.getters['history/gethistory']
+      Toast.success('删除成功')
     }
   },
   mounted () {
-    this.list.push(...this.$store.getters.gethistory)
+    this.list = this.$store.getters['history/gethistory']
     console.log(this.list)
   }
 }
@@ -57,5 +75,8 @@ export default {
 .history-view {
   margin-bottom: 50px;
   margin-top: 44px;
+}
+.delete-button {
+  height: 100%;
 }
 </style>

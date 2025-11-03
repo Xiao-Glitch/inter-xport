@@ -1,5 +1,6 @@
 export default {
   name: 'history',
+  namespaced: true,
   state: {
     history: JSON.parse(localStorage.getItem('history')) || []
   },

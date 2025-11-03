@@ -48,8 +48,28 @@ const routes = [
       {
         path: '/search',
         component: () => import('@/views/search.vue')
+      },
+      {
+        path: 'settings',
+        component: () => import('@/views/settings.vue')
       }
     ]
+  },
+  {
+    path: '/settings/edit',
+    component: () => import('@/views/settingss/EditProfile.vue')
+  },
+  {
+    path: '/settings/pwd',
+    component: () => import('@/views/settingss/ChangePwd.vue')
+  },
+  {
+    path: '/settings/email',
+    component: () => import('@/views/settingss/BindEmail.vue')
+  },
+  {
+    path: '/settings/mobile',
+    component: () => import('@/views/settingss/BindMobile.vue')
   },
   {
     path: '/detail',

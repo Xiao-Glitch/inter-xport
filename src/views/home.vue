@@ -1,12 +1,12 @@
 <template>
   <div class="layout-view">
     <keep-alive>
-      <router-view :key="$route.fullPath"></router-view>
+      <router-view :key="$route.fullPath" @cont="getnum"></router-view>
     </keep-alive>
 
     <van-tabbar route>
       <van-tabbar-item replace to="/home/article" icon="notes-o">首页</van-tabbar-item>
-      <van-tabbar-item replace to="/home/notify" icon="chat-o">消息</van-tabbar-item>
+      <van-tabbar-item replace to="/home/notify" icon="chat-o" :badge="msgnum">消息</van-tabbar-item>
       <van-tabbar-item replace to="/home/user" icon="user-o">我的</van-tabbar-item>
     </van-tabbar>
   </div>
@@ -14,7 +14,17 @@
 
 <script>
 export default {
-  name: 'Home-view'
+  name: 'Home-view',
+  data () {
+    return {
+      msgnum: 0
+    }
+  },
+  methods: {
+    getnum (num) {
+      this.msgnum = num
+    }
+  }
 }
 </script>
 
