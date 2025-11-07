@@ -134,7 +134,7 @@ export default {
           id: 7002,
           type: 'like',
           title: '安安说前端',
-          desc: '赞了你的文章《WebStorm 永久激活教程》',
+          desc: '赞了你的评论',
           time: '2小时前',
           avatar: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
           read: false

@@ -12,7 +12,15 @@
     </van-sticky>
 
     <!-- 2. 分类 tabs -->
-    <van-tabs v-model="activeTab" sticky animated swipeable>
+    <van-tabs
+      v-model="activeTab"
+      animated
+      swipeable
+      color="#4169FF"
+      line-width="18px"
+      title-active-color="#222"
+      style="position: sticky; top: 54px; z-index: 9999;"
+    >
       <van-tab name="all" title="综合" />
       <van-tab name="article" title="文章" />
       <van-tab name="course" title="课程" />
@@ -21,9 +29,9 @@
     </van-tabs>
 
     <!-- 3. 排序/时间下拉 -->
-    <van-dropdown-menu active-color="#4169FF">
-      <van-dropdown-item v-model="sort" :options="sortOptions" />
-      <van-dropdown-item v-model="time" :options="timeOptions" />
+    <van-dropdown-menu active-color="#4169FF" style="border-bottom: 1px solid var(--color-greyWhite);">
+      <van-dropdown-item v-model="sort" :options="sortOptions" @change="onSortChange"/>
+      <van-dropdown-item v-model="time" :options="timeOptions" @change="onTimeChange"/>
     </van-dropdown-menu>
 
     <!-- 4. 结果列表 -->
@@ -110,11 +118,23 @@ export default {
       articleList: [],
       courseList: [],
       tagList: [],
-      userList: []
+      userList: [],
+      newTags: []
     }
   },
   created () {
     this.keywords = this.$route.query.keywords
+    const newTags = [
+      { id: 30003, name: '后端', ename: 'backend', count: this.getCount('后端') },
+      { id: 30004, name: '前端', ename: 'frontend', count: this.getCount('前端') },
+      { id: 30005, name: 'Android', ename: 'android', count: this.getCount('Android') },
+      { id: 30006, name: 'ios', ename: 'ios', count: this.getCount('iOS') },
+      { id: 30007, name: '人工智能', ename: 'ai', count: this.getCount('人工智能') },
+      { id: 30008, name: '开发工具', ename: 'tools', count: this.getCount('开发工具') },
+      { id: 30009, name: '代码人生', ename: 'career', count: this.getCount('代码人生') },
+      { id: 30010, name: '阅读', ename: 'reading', count: this.getCount('阅读') }
+    ]
+    this.newTags = newTags // 新增：将 newTags 挂载到 data 便于后续合并
   },
   computed: {
     isEmpty () {
@@ -129,17 +149,27 @@ export default {
   },
   methods: {
     onSearch () {
-      this.page = 1
+      this.articleList = []
+      this.courseList = []
+      this.tagList = []
+      this.userList = []
+      this.finished = false
+      if (this.keywords.trim() !== '') {
+        this.$router.replace({
+          path: '/search',
+          query: { keywords: this.keywords }
+        })
+      }
+      this.onLoad()
+    },
+    onCancel () {
+      this.keywords = ''
       this.articleList = []
       this.courseList = []
       this.tagList = []
       this.userList = []
       this.finished = false
       this.onLoad()
-    },
-    onCancel () {
-      this.keywords = ''
-      this.onSearch()
     },
     onLoad () {
       setTimeout(() => {
@@ -149,23 +179,52 @@ export default {
           tags = [],
           users = []
         } = this.mockFetch()
-        if (this.page === 1) {
-          this.articleList = []
-          this.courseList = []
-          this.tagList = []
-          this.userList = []
-        }
-        this.articleList.push(...articles)
-        this.courseList.push(...courses)
-        this.tagList.push(...tags)
-        this.userList.push(...users)
+        const pageSize = 5
+        // 计算当前已加载的条数
+        const loadedArticles = this.articleList.length
+        const loadedCourses = this.courseList.length
+        const loadedTags = this.tagList.length
+        const loadedUsers = this.userList.length
+        // 每次追加5条
+        this.articleList.push(...articles.slice(loadedArticles, loadedArticles + pageSize))
+        this.courseList.push(...courses.slice(loadedCourses, loadedCourses + pageSize))
+        this.tagList.push(...tags.slice(loadedTags, loadedTags + pageSize))
+        this.userList.push(...users.slice(loadedUsers, loadedUsers + pageSize))
         this.loading = false
-        // if (this.page >= 3) this.finished = true
-        // this.page++
-      }, 600)
+        // 判断是否全部加载完
+        if (
+          this.articleList.length >= articles.length &&
+          this.courseList.length >= courses.length &&
+          this.tagList.length >= tags.length &&
+          this.userList.length >= users.length
+        ) {
+          this.finished = true
+        }
+      }, 800)
+    },
+    onSortChange (vl) {
+      this.sort = vl
+      this.articleList = []
+      this.courseList = []
+      this.tagList = []
+      this.userList = []
+      this.finished = false
+      this.onLoad()
+    },
+    onTimeChange (vl) {
+      this.time = vl
+      this.articleList = []
+      this.courseList = []
+      this.tagList = []
+      this.userList = []
+      this.finished = false
+      this.onLoad()
+    },
+    getCount (name) {
+      return this.$store.getters['articleltes/getCategoryCounts'](name)
     },
     mockFetch () {
-      const articles = this.$store.getters['articleltes/getArticleList']
+      let articles = this.$store.getters['articleltes/getArticleList']
       const courses = [
         {
           id: 20001,
@@ -176,10 +235,23 @@ export default {
           buyers: 1234
         }
       ]
-      const tags = [
+      let tags = [
         { id: 30001, name: 'webpack', count: 218 },
         { id: 30002, name: 'pycharm', count: 99 }
       ]
+      // 合并 newTags 并去重
+      if (this.newTags) {
+        const tagMap = {}
+        ;[...tags, ...this.newTags].forEach(t => {
+          if (!tagMap[t.ename || t.name]) {
+            tagMap[t.ename || t.name] = { ...t }
+          } else {
+            // 合并 count
+            tagMap[t.ename || t.name].count += t.count || 0
+          }
+        })
+        tags = Object.values(tagMap)
+      }
       const users = [
         {
           id: 40001,
@@ -189,11 +261,30 @@ export default {
           fans: 312
         }
       ]
-
+      // 排序处理
+      if (this.sort === 'new') {
+        articles = [...articles].sort((a, b) => new Date(b.time) - new Date(a.time))
+      } else if (this.sort === 'hot') {
+        articles = [...articles].sort((a, b) => b.likes - a.likes)
+      }
+      // 时间筛选（示例，需根据实际数据结构调整）
+      if (this.time === 'week') {
+        const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
+        articles = articles.filter(a => new Date(a.time).getTime() >= weekAgo)
+      } else if (this.time === 'month') {
+        const monthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000
+        articles = articles.filter(a => new Date(a.time).getTime() >= monthAgo)
+      }
+      // 关键词过滤
       const kw = this.keywords
       return {
         articles: kw
-          ? articles.filter((v) => v.title.includes(kw))
+          ? articles.filter(v =>
+            (v.title && v.title.includes(kw)) ||
+            (v.category && v.category.includes && v.category.includes(kw)) ||
+            (v.content && v.content.includes && v.content.includes(kw)) ||
+            (v.pw && v.pw.includes && v.pw.includes(kw))
+          )
           : articles,
         courses: kw ? courses.filter((v) => v.title.includes(kw)) : courses,
         tags: kw ? tags.filter((v) => v.name.includes(kw)) : tags,
@@ -206,10 +297,13 @@ export default {
 
 <style scoped lang="less">
 .search-page {
-  background: #f7f8fa;
+  // background: #f7f8fa;
   min-height: 100vh;
 }
 .card-group {
   margin: 0 16px;
+}
+:deep(.van-tabs .van-tabs--line) {
+  top: 44px;
 }
 </style>

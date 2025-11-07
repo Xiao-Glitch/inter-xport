@@ -36,11 +36,11 @@
       <hr />
       <main class="body" v-html="item.cons"></main>
       </div>
-      <div class="opt">
+      <div v-show="!onShow" class="opt">
         <van-icon :name="like ? 'like' : 'like-o'" @click="adtLike()" color="#FF3333"></van-icon>
         <van-icon :name="star ? 'star' : 'star-o'" @click="adtCollect()" color="#fec635"></van-icon>
       </div>
-      <CommentItem :arId="articleId"></CommentItem>
+      <CommentItem :arId="articleId" @show="showReport"></CommentItem>
     </van-pull-refresh>
   </div>
 </template>
@@ -71,7 +71,8 @@ export default {
       follow: false,
       otherId: '',
       articleId: '',
-      searchInput: ''
+      searchInput: '',
+      onShow: false
     }
   },
 
@@ -186,6 +187,10 @@ export default {
         this.follow = !this.follow
         alert('已取消关注')
       }
+    },
+    showReport (val) {
+      this.onShow = val
+      // console.log('detail接收', val)
     }
   },
   mounted () {
@@ -244,6 +249,11 @@ input[type="search"]::-webkit-search-cancel-button {
         align-items: center;
       }
     }
+  }
+
+  :deep(code) {
+    overflow: visible;
+    font-size: 8px;
   }
   :deep(.van-nav-bar__content) {
     justify-content: space-between;

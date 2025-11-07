@@ -23,7 +23,7 @@
               v-model="showShare"
               title="立即分享给好友"
               :options="options"
-              @select="showShare = false"
+              @select="onSelect"
             />
           <van-cell title="意见反馈" is-link />
           <van-cell title="关于我们" is-link />
@@ -41,7 +41,7 @@ export default {
   name: 'User-view',
   data () {
     return {
-      username: JSON.parse(localStorage.getItem('user')).name || '',
+      username: JSON.parse(localStorage.getItem('user')).username || '',
       avatar: localStorage.getItem('user').avatar || avatar,
       isLoading: false,
       showShare: false,
@@ -49,16 +49,16 @@ export default {
       islogin: false,
       options: [
         [
-          { name: '微信', icon: 'wechat' },
-          { name: '朋友圈', icon: 'wechat-moments' },
-          { name: '微博', icon: 'weibo' },
-          { name: 'QQ', icon: 'qq' }
+          { name: '微信', icon: 'wechat', key: 'wx' },
+          { name: '朋友圈', icon: 'wechat-moments', key: 'wxMoment' },
+          { name: '微博', icon: 'weibo', key: 'wb' },
+          { name: 'QQ', icon: 'qq', key: 'qq' }
         ],
         [
-          { name: '复制链接', icon: 'link' },
-          { name: '分享海报', icon: 'poster' },
-          { name: '二维码', icon: 'qrcode' },
-          { name: '小程序', icon: 'weapp-qrcode' }
+          { name: '复制链接', icon: 'link', key: 'copy' },
+          { name: '分享海报', icon: 'poster', key: 'poster' },
+          { name: '二维码', icon: 'qrcode', key: 'qrcode' },
+          { name: '小程序', icon: 'weapp-qrcode', key: 'weapp' }
         ]
       ]
     }
@@ -79,14 +79,34 @@ export default {
           // 延时后再清理并跳转
           setTimeout(() => {
             this.$store.commit('user/CLEAR')
-            localStorage.clear()
+            localStorage.removeItem('token')
             this.$router.replace('/login')
           }, 800)
         })
         .catch(() => {})
     },
-    onselect (options) {
-      Toast(options.name)
+    onSelect (row) {
+      // Toast(row.name)
+      switch (row.key) {
+        case 'wx':
+          // wxShareFriend()
+          break
+        case 'wxMoment':
+          // wxShareTimeline()
+          break
+        case 'copy':
+          Toast('已复制链接')
+          // copyLink()
+          break
+        case 'poster':
+          // generatePoster()
+          break
+        case 'qrcode':
+          // showQrcodeDialog.value = true
+          break
+        default:
+          Toast(`暂未实现: ${row.name}`)
+      }
       this.showShare = false
     },
     onRefresh () {

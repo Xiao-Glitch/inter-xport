@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     afterRead (file) {
-      // 本地预览，真实环境先上传再拿 URL
       this.form.avatar = file.content
     },
     save () {

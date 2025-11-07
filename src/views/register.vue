@@ -1,9 +1,9 @@
 <template>
   <div class="login-page">
-    <van-nav-bar title="面经注册" />
+    <van-nav-bar title="注册" />
     <van-form @submit="onSubmit">
       <van-field
-        v-model="username"
+        v-model="user.username"
         name="username"
         label="用户名"
         placeholder="用户名"
@@ -13,7 +13,7 @@
         ]"
       />
       <van-field
-        v-model="password"
+        v-model="user.password"
         type="password"
         name="password"
         label="密码"
@@ -33,12 +33,21 @@
 
 <script>
 import { Toast } from 'vant'
+import avatar from '@/assets/avatar.png'
 export default {
   name: 'register-view',
   data () {
     return {
-      username: '',
-      password: '',
+      user: {
+        avatar: avatar,
+        userId: null,
+        username: '',
+        password: '',
+        bio: '冲！',
+        email: '',
+        mobile: '',
+        pwdUpdatedAt: 1719999999999
+      },
       isLoading: false
     }
   },
@@ -49,7 +58,11 @@ export default {
           Toast.fail('用户已存在')
         }
       } else {
-        localStorage.setItem('user', JSON.stringify({ username: values.username, password: values.password }))
+        this.user.userId = Date.now()
+        // const userList = JSON.parse(localStorage.getItem('user')) || []
+        // userList.push(this.user)
+        // localStorage.setItem('user', JSON.stringify(userList))
+        localStorage.setItem('user', JSON.stringify(this.user))
         // console.log(JSON.parse(localStorage.getItem('user')))
         this.username = this.password = ''
         this.isLoading = true

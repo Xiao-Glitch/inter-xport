@@ -28,7 +28,11 @@
     </nav>
     <div class="nav-before">
       <div class="nav-list">
-        <a v-for="value in selectList" :key="value.id" href="JavaScript:" class="nav-item" :class="{ active: value.id === seId }" @click="onselect(value.id)">
+        <a class="nav-item"
+          v-for="value in selectList"
+          :key="value.id" href="JavaScript:"
+          :class="{ active: value.id === seId }"
+          @click="onselect(value.id)">
           <div class="nav-span">
             <span>{{ value.name }}</span>
           </div>
@@ -116,7 +120,7 @@ export default {
     },
     toSearch () {
       const vl = this.searchInput.trim()
-      if (vl) {
+      if (vl || !vl) {
         setTimeout(() => {
           router.push({
             path: '/search',

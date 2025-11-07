@@ -1,7 +1,7 @@
 <template>
   <div class="comment-container">
     <div class="title">
-      <p>共12条评论</p>
+      <p>共{{ list.length + totalChildrenCount}}条评论</p>
     </div>
     <div class="comment-form">
       <div class="content">
@@ -30,108 +30,115 @@
       <van-tab name="hot" title="最热" />
       <van-tab name="new" title="最新" />
     </van-tabs>
-  <div class="comment-list-box">
-    <van-list
-      v-model="loading"
-      :finished="finished"
-      finished-text=""
-      @load="onLoad"
-    >
-      <van-swipe-cell
-        v-for="item in list"
-        :key="item.id"
-        :right-action="delAction"
-        @open="onDel(item)"
+    <div class="comment-list-box">
+      <van-list
+        v-model="loading"
+        :finished="finished"
+        finished-text=""
+        @load="onLoad"
       >
-        <div class="comment-item" @click="reply(item)">
-          <van-image
-            round
-            fit="cover"
-            width="39px"
-            height="39px"
-            :src="item.avatar"
-            class="avatar"
-          />
-          <div class="right">
-            <div class="head">
-              <span class="name">{{ item.name }}</span>
-              <span class="time">{{ fmtTime(item.time) }}</span>
-            </div>
-            <div class="contents">{{ item.content }}</div>
+        <van-swipe-cell
+          v-for="item in list"
+          :key="item.id"
+          :right-action="delAction"
+        >
+          <div class="comment-item"
+            @click="reply(item)"
+          >
+            <van-image
+              round
+              fit="cover"
+              width="39px"
+              height="39px"
+              :src="item.avatar"
+              class="avatar"
+            />
+            <div class="right">
+              <div class="head">
+                <span class="name">{{ item.name }}</span>
+                <span class="time">{{ fmtTime(item.time) }}</span>
+              </div>
+              <div class="contents"
+                @touchstart="onTouchStart(item)"
+                @touchend="onTouchEnd"
+                @touchcancel="onTouchEnd">
+                {{ item.content }}
+              </div>
 
-            <!-- <div class="reply-box">
-              <input v-model="item.replyInput" class="comipt" type="text" placeholder="回复..." />
-              <button class="reply-btn" @click.stop="submitReply(item)">回复</button>
-            </div> -->
+              <!-- <div class="reply-box">
+                <input v-model="item.replyInput" class="comipt" type="text" placeholder="回复..." />
+                <button class="reply-btn" @click.stop="submitReply(item)">回复</button>
+              </div> -->
 
-            <div v-if="item.children && item.children.length" class="sub-box">
-                <div class="sub-list" :style="{ height: (isCollapsed(item) ? '125px' : 'auto') }">
-                  <div
-                  v-for="(sub, idx) in item.children"
-                  :key="sub.id"
-                  class="sub-item"
-                  @click.stop="reply(sub, item)"
-                >
-                  <span class="sub-name">{{ sub.name }}:</span>&nbsp;
-                  <span class="sub-con">{{ sub.content }}</span>
-                  <div class="tl">
-                    <div class="ttl">
-                      <div class="like" @click.stop="toggleLike(sub)">
-                        <van-icon
-                          :name="sub.liked ? 'good-job' : 'good-job-o'"
-                          :color="sub.liked ? '#ee0a24' : '#969799'"
-                        />
-                        <span>{{ sub.like }}</span>
+              <div v-if="item.children && item.children.length" class="sub-box">
+                  <div class="sub-list" :style="{ height: (isCollapsed(item) ? '125px' : 'auto') }">
+                    <div
+                    v-for="(sub, idx) in item.children"
+                    :key="sub.id"
+                    class="sub-item"
+                    @click.stop="reply(sub, item)"
+                  >
+                    <span class="sub-name">{{ sub.name }}:</span>&nbsp;
+                    <span class="sub-con">{{ sub.content }}</span>
+                    <div class="tl">
+                      <div class="ttl">
+                        <div class="like" @click.stop="toggleLike(sub)">
+                          <van-icon
+                            :name="sub.liked ? 'good-job' : 'good-job-o'"
+                            :color="sub.liked ? '#ee0a24' : '#969799'"
+                          />
+                          <span>{{ sub.like }}</span>
+                        </div>
+                        <div class="comment" @click="onComment(item.children[idx].id)">
+                          <van-icon name="comment-o">
+                          </van-icon>
+                        </div>
                       </div>
-                      <div class="comment" @click="onComment(item.children[idx].id)">
-                        <van-icon name="comment-o">
-                        </van-icon>
-                      </div>
+                      <span class="sub-time">{{fmtTime(sub.time) }}</span>
                     </div>
-                    <span class="sub-time">{{fmtTime(sub.time) }}</span>
                   </div>
                 </div>
+                <div
+                  v-if="item.childCount > 2"
+                  class="sub-more"
+                >
+                  <span class="totls" :class="{ active: !isCollapsed(item) }" @click.stop="showAllChild(item)">共{{ item.childCount }}条回复</span>
+                  <svg t="1761272730517" class="icon" :class="{active:!isCollapsed(item)}" @click.stop="showAllChild(item)"
+                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3683" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><path d="M192 384l320 384 320-384H192z" fill="#303133" p-id="3684"></path></svg>
+                </div>
               </div>
-              <div
-                v-if="item.childCount > 2"
-                class="sub-more"
-              >
-                <span class="totls" :class="{ active: !isCollapsed(item) }" @click.stop="showAllChild(item)">共{{ item.childCount }}条回复</span>
-                <svg t="1761272730517" class="icon" :class="{active:!isCollapsed(item)}" @click.stop="showAllChild(item)"
-                  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3683" xmlns:xlink="http://www.w3.org/1999/xlink" width="12" height="12"><path d="M192 384l320 384 320-384H192z" fill="#303133" p-id="3684"></path></svg>
-              </div>
-            </div>
 
-            <div class="tool">
-              <div class="like" @click.stop="toggleLike(item)">
-                <van-icon
-                  :name="item.liked ? 'good-job' : 'good-job-o'"
-                  :color="item.liked ? '#ee0a24' : '#969799'"
-                />
-                <span>{{ item.like }}</span>
-              </div>
-              <div class="comment" :class="{ 'active' : item.commentId === iscomipt }">
-                <van-icon name="comment-o" @click="onComment(item.commentId)">
-                </van-icon>
-                <input class="comipt"
-                  v-model="item.replyInput" type="text"
-                  @blur="cBlur(item)"
-                 :class="{ 'active' : item.commentId === iscomipt }">
-                 <button class="rely-btn" @click.stop="submitReply(item)">发送</button>
+              <div class="tool">
+                <div class="like" @click.stop="toggleLike(item)">
+                  <van-icon
+                    :name="item.liked ? 'good-job' : 'good-job-o'"
+                    :color="item.liked ? '#ee0a24' : '#969799'"
+                  />
+                  <span>{{ item.like }}</span>
+                </div>
+                <div class="comment" :class="{ 'active' : item.commentId === iscomipt }">
+                  <van-icon name="comment-o" @click="onComment(item.commentId)">
+                  </van-icon>
+                  <input class="comipt"
+                    v-model="item.replyInput" type="text"
+                    @blur="cBlur(item)"
+                  :class="{ 'active' : item.commentId === iscomipt }">
+                  <button class="rely-btn" @click.stop="submitReply(item)">发送</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </van-swipe-cell>
-    </van-list>
-
-    <van-empty v-if="isEmpty" description="暂无评论" />
-  </div>
+        </van-swipe-cell>
+      </van-list>
+      <DialogSheet v-model="showReport" :current-id="currentId" :comment-id="commentId" @show="handleSheetShow" />
+      <van-empty v-if="isEmpty" description="暂无评论" />
+    </div>
   </div>
 </template>
 
 <script>
 import { Toast } from 'vant'
+import DialogSheet from './DialogSheet.vue'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import 'dayjs/locale/zh-cn'
@@ -139,6 +146,10 @@ dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 export default {
   name: 'CommentItem',
+  components: {
+    DialogSheet
+  },
+
   props: {
     arId: {
       type: String,
@@ -156,12 +167,21 @@ export default {
       expanded: [],
       iscomipt: '',
       page: 1,
-      delAction: [{ text: '删除', color: '#ee0a24' }]
+      showReport: false,
+      currentId: '',
+      commentId: null,
+      delAction: [{ text: '删除', color: '#ee0a24' }],
+      longPressTimer: null
     }
   },
   computed: {
     isEmpty () {
       return this.loading && this.list.length === 0
+    },
+    totalChildrenCount () {
+      return this.list.reduce((total, item) => {
+        return total + (item.children ? item.children.length : 0)
+      }, 0)
     }
   },
   methods: {
@@ -183,7 +203,8 @@ export default {
     },
     cBlur (item) {
       this.iscomipt = ''
-      this.submitReply(item)
+      // this.submitReply(item)
+      // console.log(item)
     },
     getComments () {
       this.sort = !this.sort ? 'hot' : 'new'
@@ -191,6 +212,7 @@ export default {
     submitComment () {
       if (this.commentInput) {
         const newComment = {
+          userId: JSON.parse(localStorage.getItem('user')).userId,
           id: Date.now(),
           commentId: 'c' + Date.now(),
           articleId: this.arId,
@@ -201,7 +223,8 @@ export default {
           like: 0,
           liked: false,
           children: [],
-          childCount: 0
+          childCount: 0,
+          commentNum: 0
         }
         // 提交到 Vuex 并自动同步 localStorage
         this.$store.commit('comment/addComment', newComment)
@@ -259,11 +282,17 @@ export default {
       }, 600)
     },
     onDel (item) {
-      const idx = this.list.findIndex((v) => v.id === item.id)
-      if (idx > -1) {
-        this.list.splice(idx, 1)
-        Toast('已删除')
-      }
+      // const idx = this.list.findIndex((v) => v.id === item.id)
+      // if (idx > -1) {
+      //   this.list.splice(idx, 1)
+      //   Toast('已删除')
+      // }
+      this.showReport = true
+      this.currentId = item.userId
+      this.commentId = item.commentId
+      this.$emit('show', this.showReport)
+      // console.log(item.commentId)
+      // console.log(this.currentId)
     },
     onComment (id) {
       this.iscomipt = id
@@ -318,6 +347,19 @@ export default {
         this.list = []
         this.onLoad()
       }, 300)
+    },
+    onTouchStart (item) {
+      this.longPressTimer = setTimeout(() => {
+        this.onDel(item)
+      }, 500)
+    },
+    onTouchEnd () {
+      clearTimeout(this.longPressTimer)
+      this.longPressTimer = null
+    },
+    handleSheetShow (val) {
+      this.showReport = val
+      this.$emit('show', val)
     }
   },
   mounted () {
@@ -347,6 +389,7 @@ export default {
     }
   }
 .comment-list-box {
+  min-height: 280px;
   padding: 0 15px;
   background: var(--color-white);
 }
@@ -480,13 +523,23 @@ export default {
         }
         .comipt {
           // display: none;
-          width: 0px;
+          width: 0;
+          min-width: 0;
+          padding: 0;
+          border: 1px solid transparent;
+          // opacity: 0;
+          box-sizing: border-box;
+          position: absolute;
+          // left: -9999px;
           // overflow: hidden;
-          border: 1px solid var(--color-grey);
           transition: all 0.8s;
           &.active {
-            width: 120px;
+            position: static;
+            opacity: 1;
+            width: 120px !important;
             // border-radius: 6px;
+            border-color: var(--color-grey);
+            left: 0;
             border-top-left-radius: 6px;
             border-bottom-left-radius: 6px;
             font-size: 16px;
@@ -494,14 +547,13 @@ export default {
         }
         .rely-btn {
           width: 42px;
-          height: 22px;
+          height: 20px;
           font-size: 12px;
           background-color: #1e80ff;
           color: var(--color-white);
           border: 1px solid #1e80ff;
           border-top-right-radius: 6px;
           border-bottom-right-radius: 6px;
-          // display: none;
         }
       }
     }

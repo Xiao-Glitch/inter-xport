@@ -79,4 +79,7 @@ export default {
 .delete-button {
   height: 100%;
 }
+:deep(.van-swipe-cell__right) {
+  right: -2px !important;
+}
 </style>

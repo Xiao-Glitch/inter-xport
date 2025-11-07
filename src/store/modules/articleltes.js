@@ -14,7 +14,8 @@ export default {
         other: '风里追风',
         time: '2023-04-21',
         content: '211本，非科班，春招第一次投阿里，淘天四面技术+一轮HR，被问懵Webpack插件机制，含泪复盘。',
-        category: 'frontend'
+        category: 'frontend',
+        pw: '前端'
       },
       {
         id: 2,
@@ -26,7 +27,8 @@ export default {
         other: '橘子味的风',
         time: '2022-01-29',
         content: 'WXG事业群，三轮视频面，全程90分钟，手写Promise.all+聊微前端，已OC。',
-        category: 'frontend'
+        category: 'frontend',
+        pw: '前端'
       },
       {
         id: 3,
@@ -38,7 +40,8 @@ export default {
         other: '半盏流年',
         time: '2022-06-23',
         content: '投抖音电商，一面问React调度器，答不出来，30分钟结束，凉得彻底。',
-        category: 'frontend'
+        category: 'frontend',
+        pw: '前端'
       },
       {
         id: 4,
@@ -50,7 +53,8 @@ export default {
         other: '云深不知处',
         time: '2022-02-24',
         content: '买菜事业部，重业务逻辑，三轮技术面深挖性能指标，已拿SP。',
-        category: 'frontend'
+        category: 'frontend',
+        pw: '前端'
       },
       {
         id: 5,
@@ -62,7 +66,8 @@ export default {
         other: '北海有鹿',
         time: '2023-02-25',
         content: '四轮技术+一轮HR，聊项目聊人生，手写虚拟列表，offer已到账。',
-        category: 'frontend'
+        category: 'frontend',
+        pw: '前端'
       },
       {
         id: 6,
@@ -74,7 +79,8 @@ export default {
         other: 'Vue爱好者',
         time: '2024-03-14',
         content: '从Options API到Composition API的平滑迁移，响应式原理深度剖析，性能优化实战经验分享。',
-        category: 'frontend'
+        category: 'frontend',
+        pw: '前端'
       },
       {
         id: 7,
@@ -86,7 +92,8 @@ export default {
         other: 'React实践者',
         time: '2024-03-09',
         content: 'useTransition、useDeferredValue实战应用，Suspense数据获取新模式，打造更流畅的用户体验。',
-        category: 'frontend'
+        category: 'frontend',
+        pw: '前端'
       },
       {
         id: 8,
@@ -98,7 +105,8 @@ export default {
         other: 'TS专家',
         time: '2024-03-18',
         content: '条件类型、映射类型、模板字面量类型，打造类型安全的极致开发体验。',
-        category: 'frontend'
+        category: 'frontend',
+        pw: '前端'
       },
 
       // 后端相关 (6篇)
@@ -112,7 +120,8 @@ export default {
         other: 'Java架构师',
         time: '2024-03-12',
         content: '从Spring Boot 2.x升级到3.0的完整指南，新特性实战演示，性能优化技巧全分享。',
-        category: 'backend'
+        category: 'backend',
+        pw: '后端'
       },
       {
         id: 10,
@@ -124,7 +133,8 @@ export default {
         other: '云原生专家',
         time: '2024-03-08',
         content: '基于Spring Cloud Alibaba的微服务实战，服务发现、配置管理、流量控制一站式解决方案。',
-        category: 'backend'
+        category: 'backend',
+        pw: '后端'
       },
       {
         id: 11,
@@ -136,7 +146,8 @@ export default {
         other: '系统架构师',
         time: '2024-03-20',
         content: '从零到一设计百万QPS系统，缓存、消息队列、分库分表全方位解析。',
-        category: 'backend'
+        category: 'backend',
+        pw: '后端'
       },
       {
         id: 12,
@@ -148,7 +159,8 @@ export default {
         other: 'DBA专家',
         time: '2024-03-15',
         content: '索引优化、SQL调优、分库分表，让你的数据库性能提升10倍。',
-        category: 'backend'
+        category: 'backend',
+        pw: '后端'
       },
       {
         id: 13,
@@ -160,7 +172,8 @@ export default {
         other: '缓存大师',
         time: '2024-03-22',
         content: '从基础数据结构到高级特性，分布式锁、延时队列、布隆过滤器实战详解。',
-        category: 'backend'
+        category: 'backend',
+        pw: '后端'
       },
       {
         id: 14,
@@ -172,7 +185,8 @@ export default {
         other: '架构思考者',
         time: '2024-03-25',
         content: 'Seata、TCC、Saga模式对比，在微服务架构中如何保证数据一致性。',
-        category: 'backend'
+        category: 'backend',
+        pw: '后端'
       },
 
       // Android相关 (5篇)
@@ -186,7 +200,8 @@ export default {
         other: '移动端架构师',
         time: '2024-03-11',
         content: '告别XML布局，拥抱声明式UI。Compose状态管理、主题定制、动画效果全方位解析。',
-        category: 'android'
+        category: 'android',
+        pw: 'Android'
       },
       {
         id: 16,
@@ -198,7 +213,8 @@ export default {
         other: '性能调优专家',
         time: '2024-03-07',
         content: '内存泄漏检测与修复，启动速度优化，电量消耗控制，让你的App飞起来。',
-        category: 'android'
+        category: 'android',
+        pw: 'Android'
       },
       {
         id: 17,
@@ -210,7 +226,8 @@ export default {
         other: 'Kotlin布道师',
         time: '2024-03-19',
         content: '从基础概念到高级应用，掌握协程在Android开发中的最佳实践。',
-        category: 'android'
+        category: 'android',
+        pw: 'Android'
       },
       {
         id: 18,
@@ -222,7 +239,8 @@ export default {
         other: '跨端开发者',
         time: '2024-03-23',
         content: '在现有Android项目中集成Flutter，实现原生与跨端的完美融合。',
-        category: 'android'
+        category: 'android',
+        pw: 'Android'
       },
       {
         id: 19,
@@ -234,7 +252,8 @@ export default {
         other: '安全研究员',
         time: '2024-03-26',
         content: '代码混淆、反调试、数据加密，全方位保护你的App安全。',
-        category: 'android'
+        category: 'android',
+        pw: 'Android'
       },
 
       // iOS相关 (5篇)
@@ -248,7 +267,8 @@ export default {
         other: 'iOS开发者',
         time: '2024-03-13',
         content: '声明式语法彻底改变iOS开发方式，结合Combine框架构建响应式应用。',
-        category: 'ios'
+        category: 'ios',
+        pw: 'iOS'
       },
       {
         id: 21,
@@ -260,7 +280,8 @@ export default {
         other: '底层探索者',
         time: '2024-03-06',
         content: 'ARC原理剖析，循环引用排查技巧，内存峰值控制策略，打造稳定流畅的iOS应用。',
-        category: 'ios'
+        category: 'ios',
+        pw: 'iOS'
       },
       {
         id: 22,
@@ -272,7 +293,8 @@ export default {
         other: 'Swift专家',
         time: '2024-03-21',
         content: 'async/await、Actor模型，现代Swift并发编程的最佳实践。',
-        category: 'ios'
+        category: 'ios',
+        pw: 'iOS'
       },
       {
         id: 23,
@@ -284,7 +306,8 @@ export default {
         other: '架构师之路',
         time: '2024-03-24',
         content: 'MVC、MVVM、VIPER、Clean Architecture，选择适合你项目的架构模式。',
-        category: 'ios'
+        category: 'ios',
+        pw: 'iOS'
       },
       {
         id: 24,
@@ -296,7 +319,8 @@ export default {
         other: 'AI移动开发者',
         time: '2024-03-27',
         content: '在iOS应用中集成机器学习模型，实现智能图像识别、自然语言处理等功能。',
-        category: 'ios'
+        category: 'ios',
+        pw: 'iOS'
       },
 
       // 人工智能相关 (6篇)
@@ -310,7 +334,8 @@ export default {
         other: 'AI研究员',
         time: '2024-03-16',
         content: '从Prompt工程到Fine-tuning，从ChatGPT到Claude，全面掌握大模型在业务中的应用。',
-        category: 'ai'
+        category: 'ai',
+        pw: '人工智能'
       },
       {
         id: 26,
@@ -322,7 +347,8 @@ export default {
         other: '算法工程师',
         time: '2024-03-05',
         content: 'TensorFlow Serving、ONNX Runtime、Triton Inference Server，生产环境模型服务化最佳实践。',
-        category: 'ai'
+        category: 'ai',
+        pw: '人工智能'
       },
       {
         id: 27,
@@ -334,7 +360,8 @@ export default {
         other: 'CV工程师',
         time: '2024-03-28',
         content: '从图像分类到目标检测，从语义分割到实例分割，完整项目开发流程。',
-        category: 'ai'
+        category: 'ai',
+        pw: '人工智能'
       },
       {
         id: 28,
@@ -346,7 +373,8 @@ export default {
         other: 'RL爱好者',
         time: '2024-03-29',
         content: '从Q-learning到深度强化学习，从游戏AI到机器人控制，开启智能决策之旅。',
-        category: 'ai'
+        category: 'ai',
+        pw: '人工智能'
       },
       {
         id: 29,
@@ -358,7 +386,8 @@ export default {
         other: 'NLP专家',
         time: '2024-03-30',
         content: '文本分类、情感分析、命名实体识别，构建智能文本处理系统。',
-        category: 'ai'
+        category: 'ai',
+        pw: '人工智能'
       },
       {
         id: 30,
@@ -370,7 +399,8 @@ export default {
         other: '数字艺术家',
         time: '2024-04-01',
         content: 'Midjourney、Stable Diffusion、DALL-E，AI绘画工具全面对比与实战技巧。',
-        category: 'ai'
+        category: 'ai',
+        pw: '人工智能'
       },
 
       // 开发工具相关 (5篇)
@@ -384,7 +414,8 @@ export default {
         other: '工具爱好者',
         time: '2024-03-04',
         content: '从零开始开发你的第一个VS Code插件，提升开发效率的必备技能。',
-        category: 'tools'
+        category: 'tools',
+        pw: '开发工具'
       },
       {
         id: 32,
@@ -396,7 +427,8 @@ export default {
         other: '运维工程师',
         time: '2024-03-03',
         content: '多阶段构建优化镜像大小，Docker Compose编排微服务，生产环境最佳实践。',
-        category: 'tools'
+        category: 'tools',
+        pw: '开发工具'
       },
       {
         id: 33,
@@ -408,7 +440,8 @@ export default {
         other: '版本控制专家',
         time: '2024-04-02',
         content: '分支策略、rebase、cherry-pick，提升团队协作效率的Git实践。',
-        category: 'tools'
+        category: 'tools',
+        pw: '开发工具'
       },
       {
         id: 34,
@@ -420,7 +453,8 @@ export default {
         other: 'DevOps工程师',
         time: '2024-04-03',
         content: 'Jenkins、GitLab CI、GitHub Actions，自动化构建部署的最佳实践。',
-        category: 'tools'
+        category: 'tools',
+        pw: '开发工具'
       },
       {
         id: 35,
@@ -432,7 +466,8 @@ export default {
         other: '系统管理员',
         time: '2024-04-04',
         content: '系统监控、性能调优、安全加固，Linux服务器运维全攻略。',
-        category: 'tools'
+        category: 'tools',
+        pw: '开发工具'
       },
 
       // 代码人生相关 (5篇)
@@ -446,7 +481,8 @@ export default {
         other: '风里追风',
         time: '2024-03-02',
         content: '分享我在一线互联网公司的成长经历，技术路线选择、团队管理心得、职业发展思考。',
-        category: 'career'
+        category: 'career',
+        pw: '代码人生'
       },
       {
         id: 37,
@@ -458,7 +494,8 @@ export default {
         other: '中年码农',
         time: '2024-03-01',
         content: '面对职业瓶颈，我是如何通过技术深度、业务理解、个人品牌实现突破的。',
-        category: 'career'
+        category: 'career',
+        pw: '代码人生'
       },
       {
         id: 38,
@@ -470,7 +507,8 @@ export default {
         other: '团队领导者',
         time: '2024-04-05',
         content: '从技术专家到管理者的角色转变，团队建设、项目规划、人才培养经验分享。',
-        category: 'career'
+        category: 'career',
+        pw: '代码人生'
       },
       {
         id: 39,
@@ -482,7 +520,8 @@ export default {
         other: '数字游民',
         time: '2024-04-06',
         content: '三年远程工作经验分享，时间管理、沟通协作、工作生活平衡的实践心得。',
-        category: 'career'
+        category: 'career',
+        pw: '代码人生'
       },
       {
         id: 40,
@@ -494,7 +533,8 @@ export default {
         other: '斜杠青年',
         time: '2024-04-07',
         content: '技术博客、开源项目、独立开发，程序员实现额外收入的多种途径。',
-        category: 'career'
+        category: 'career',
+        pw: '代码人生'
       },
 
       // 阅读相关 (5篇)
@@ -508,7 +548,8 @@ export default {
         other: '书虫程序员',
         time: '2024-02-28',
         content: '从《代码大全》到《设计模式》，从《深入理解计算机系统》到《领域驱动设计》，经典书籍深度解析。',
-        category: 'reading'
+        category: 'reading',
+        pw: '阅读'
       },
       {
         id: 42,
@@ -520,7 +561,8 @@ export default {
         other: '文档达人',
         time: '2024-02-27',
         content: '如何快速理解复杂的技术文档，提取关键信息，应用到实际项目中。',
-        category: 'reading'
+        category: 'reading',
+        pw: '阅读'
       },
       {
         id: 43,
@@ -532,7 +574,8 @@ export default {
         other: '内容创作者',
         time: '2024-04-08',
         content: '从选题到排版，从推广到变现，打造个人技术品牌的全流程指南。',
-        category: 'reading'
+        category: 'reading',
+        pw: '阅读'
       },
       {
         id: 44,
@@ -544,7 +587,8 @@ export default {
         other: '开源贡献者',
         time: '2024-04-09',
         content: '如何找到合适的开源项目，贡献代码，建立技术影响力。',
-        category: 'reading'
+        category: 'reading',
+        pw: '阅读'
       },
       {
         id: 45,
@@ -556,7 +600,8 @@ export default {
         other: '会议达人',
         time: '2024-04-10',
         content: '如何从技术会议中获得最大价值，建立人脉，拓展技术视野。',
-        category: 'reading'
+        category: 'reading',
+        pw: '阅读'
       },
 
       // 排行榜相关 (5篇)
@@ -570,7 +615,8 @@ export default {
         other: '前端观察者',
         time: '2024-03-15',
         content: 'React、Vue、Angular三大框架最新对比，Next.js、Nuxt.js全栈框架强势崛起，看看你的技术栈排第几？',
-        category: 'rank'
+        category: 'rank',
+        pw: '前端'
       },
       {
         id: 47,
@@ -582,7 +628,8 @@ export default {
         other: '技术风向标',
         time: '2024-03-10',
         content: 'TypeScript持续领跑，Rust异军突起，Python稳坐AI领域头把交椅，Java在企业级开发中依然坚挺。',
-        category: 'rank'
+        category: 'rank',
+        pw: '前端'
       },
       {
         id: 48,
@@ -642,6 +689,9 @@ export default {
     },
     hasMore (state) {
       return !state.fetched || state.artList.length === 0
+    },
+    getCategoryCounts: state => name => {
+      return state.artList.filter(item => item.pw === name).length
     }
   },
 

@@ -11,10 +11,10 @@
         class="avatar"
       />
       <div class="info">
-        <div class="name">{{ user.name }}</div>
-        <div class="id">ID: {{ user.id }} ・ {{ user.bio }}</div>
-        <div class="email">email：{{ user.email }}</div>
-        <div class="mobile">mobile：{{ user.mobile }}</div>
+        <div class="name">{{ user.username }}</div>
+        <div class="id">ID: {{ user.userId }} ・ {{ user.bio }}</div>
+        <div v-show="user.email" class="email">email：{{ user.email }}</div>
+        <div v-show="user.mobile" class="mobile">mobile：{{ user.mobile }}</div>
       </div>
       <van-button plain hairline round type="primary" size="small" @click="editProfile">
         编辑资料
@@ -29,7 +29,7 @@
       <van-cell title="注销账号" value="危险" class="danger" @click="logoutAccount" />
     </van-cell-group>
 
-    <van-cell-group title="外观" class="group">
+    <van-cell-group title="外观(暂未开放)" class="group">
       <van-cell center title="暗黑模式">
         <template #right-icon>
           <van-switch v-model="dark" size="20" active-color="#1e80ff" @change="toggleDark" />
@@ -39,7 +39,7 @@
       <van-cell title="语言" :value="langText" is-link @click="showLangPicker = true" />
     </van-cell-group>
 
-    <van-cell-group title="通知" class="group">
+    <van-cell-group title="通知(暂未开放)" class="group">
       <van-cell center title="评论通知">
         <template #right-icon>
           <van-switch v-model="notice.comment" size="20" active-color="#1e80ff" />
@@ -54,9 +54,9 @@
 
     <van-cell-group title="关于" class="group">
       <van-cell title="当前版本" :value="version" />
-      <van-cell title="用户协议" is-link @click="goOut('.')" />
-      <van-cell title="隐私政策" is-link @click="goOut('.')" />
-      <van-cell title="开源许可" is-link @click="goOut('.')" />
+      <van-cell title="用户协议" is-link/>
+      <van-cell title="隐私政策" is-link/>
+      <van-cell title="开源许可" is-link/>
     </van-cell-group>
 
     <!-- 3. 退出 -->
@@ -88,19 +88,20 @@
 
 <script>
 import { Dialog, Toast } from 'vant'
-
+import avatar from '@/assets/avatar.png'
 export default {
   name: 'SettingsView',
   data () {
     return {
       user: {
-        avatar: '...',
-        name: '小卡拉蜜',
-        id: '1024',
-        bio: '冲！',
-        email: 'user@example.com',
-        mobile: '13800138000',
-        pwdUpdatedAt: 1719999999999
+        avatar: JSON.parse(localStorage.getItem('user')).avatar || avatar,
+        bio: JSON.parse(localStorage.getItem('user')).bio || '这个人很懒，什么都没留下。',
+        username: JSON.parse(localStorage.getItem('user')).username || '',
+        userId: JSON.parse(localStorage.getItem('user')).userId,
+        email: JSON.parse(localStorage.getItem('user')).email || '',
+        mobile: JSON.parse(localStorage.getItem('user')).mobile || '',
+        password: JSON.parse(localStorage.getItem('user')).password || '',
+        pwdUpdatedAt: JSON.parse(localStorage.getItem('user')).pwdUpdatedAt || ''
       },
       dark: false,
       fontSize: 'normal',
@@ -121,6 +122,9 @@ export default {
         { name: 'English', value: 'en-US' }
       ]
     }
+  },
+  created () {
+    this.user = JSON.parse(localStorage.getItem('user') || '{}')
   },
   computed: {
     fontSizeText () {
@@ -208,16 +212,10 @@ export default {
     this.lang = localStorage.getItem('lang') || 'zh-CN'
     this.applyFont(this.fontSize)
     document.documentElement.classList.toggle('dark', this.dark)
-    const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
-    this.user = {
-      avatar: storedUser.avatar || this.user.avatar,
-      name: storedUser.name || this.user.name,
-      id: storedUser.id || this.user.id,
-      bio: storedUser.bio || this.user.bio,
-      email: storedUser.email || this.user.email,
-      mobile: storedUser.mobile || this.user.mobile,
-      pwdUpdatedAt: storedUser.pwdUpdatedAt || this.user.pwdUpdatedAt
-    }
+  },
+  activated () {
+    // 切回本页时刷新用户信息
+    this.user = JSON.parse(localStorage.getItem('user') || '{}')
   }
 }
 </script>
@@ -229,12 +227,12 @@ export default {
 }
 .settings-page {
   background: #f7f8fa;
-  height: 1105px;
+  // height: 1105px;
   padding-bottom: 20px;
 }
 
 .user-card {
-  margin: 12px 16px;
+  margin: 18px 16px;
   padding: 16px;
   background: #fff;
   border-radius: 12px;
@@ -274,5 +272,6 @@ export default {
 
 .logout-box {
   margin: 24px 16px;
+  height: 68px;
 }
 </style>

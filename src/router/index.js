@@ -52,6 +52,10 @@ const routes = [
       {
         path: 'settings',
         component: () => import('@/views/settings.vue')
+      },
+      {
+        path: 'other',
+        component: () => import('@/views/test.vue')
       }
     ]
   },

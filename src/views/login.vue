@@ -1,12 +1,13 @@
 <template>
   <div class="login-page">
-    <van-nav-bar title="面经登录" />
+    <van-nav-bar title="登录" />
     <van-form @submit="onSubmit">
       <van-field
         v-model="username"
         name="username"
         label="用户名"
         placeholder="用户名"
+        autocomplete="username"
         :rules="[
           { required: true, message: '请填写用户名' },
           { pattern: /^\w{5,}$/, message: '用户名必须在5位以上'}
@@ -18,6 +19,7 @@
         name="password"
         label="密码"
         placeholder="密码"
+        autocomplete="current-password"
         :rules="[
           { required: true, message: '请填写密码' },
           { pattern: /^\w{6,}$/, message: '密码必须在6位以上'}
