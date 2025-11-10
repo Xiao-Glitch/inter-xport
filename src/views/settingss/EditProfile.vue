@@ -9,7 +9,7 @@
           </van-uploader>
         </template>
       </van-field>
-      <van-field v-model="form.name" label="昵称" maxlength="20" show-word-limit />
+      <van-field v-model="form.username" label="昵称" maxlength="20" show-word-limit />
       <van-field v-model="form.bio" label="签名" type="textarea" rows="2" maxlength="50" show-word-limit />
     </van-cell-group>
     <div class="save-btn">
@@ -24,22 +24,23 @@ export default {
   name: 'EditProfile',
   data () {
     return {
-      form: { avatar: '', name: '', bio: '' }
+      form: { avatar: '', username: '', bio: '' }
     }
   },
   created () {
     // 读取本地缓存
     const u = JSON.parse(localStorage.getItem('user') || '{}')
-    this.form = { avatar: u.avatar || '', name: u.name || '', bio: u.bio || '' }
+    this.form = { avatar: u.avatar || '', username: u.username || '', bio: u.bio || '' }
   },
   methods: {
     afterRead (file) {
       this.form.avatar = file.content
     },
     save () {
-      if (!this.form.name.trim()) return Toast('昵称不能为空')
+      if (!this.form.username.trim()) return Toast('昵称不能为空')
       // ① 写回 localStorage
-      const user = { ...this.form, id: JSON.parse(localStorage.getItem('user') || '{}').id }
+      const existingUser = JSON.parse(localStorage.getItem('user') || '{}')
+      const user = { ...existingUser, ...this.form, userId: existingUser.userId }
       localStorage.setItem('user', JSON.stringify(user))
       // ② 返回上一页
       Toast.success('已保存')

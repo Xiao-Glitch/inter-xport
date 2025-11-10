@@ -7,7 +7,7 @@ module.exports = {
       viewportWidth: 375,
       unitToCovert: 'px',
       unitPrecision: 5,
-      selectorBlackList: ['.comment-item .right .tool .comment'],
+      selectorBlackList: ['.comment-item .right .tool .comment .van'],
       replace: true,
       mediaQuery: false
     }

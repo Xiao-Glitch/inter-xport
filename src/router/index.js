@@ -56,6 +56,14 @@ const routes = [
       {
         path: 'other',
         component: () => import('@/views/test.vue')
+      },
+      {
+        path: 'about',
+        component: () => import('@/views/about.vue')
+      },
+      {
+        path: 'feedback',
+        component: () => import('@/views/Feedback.vue')
       }
     ]
   },
@@ -113,22 +121,34 @@ const router = new VueRouter({
   routes
 })
 
-const allowList = ['/login', '/register', '/home/article', '/detail']
+const allowList = ['/login', '/register']
 router.beforeEach(async (to, from, next) => {
   const token = window.localStorage.getItem('token')
-  if (allowList.some(path => to.fullPath.startsWith(path))) {
-    return next()
-  }
-  if (token) return next()
-
-  Toast.fail('请先登录')
-
-  const redirect = to.fullPath
-  if (router.currentRoute.path !== '/login') {
-    next({ path: '/login', query: { redirect } })
+  const isAllowPath = allowList.some(path => to.fullPath.startsWith(path))
+  if (isAllowPath) {
+    if (token) {
+      Toast.fail('请勿重复登录')
+      next({ path: '/' })
+      window.history.forward(1)
+    } else {
+      next()
+    }
   } else {
-    next()
+    if (token) {
+      next()
+    } else {
+      Toast.fail('请先登录')
+      const redirect = encodeURIComponent(to.fullPath)
+      next({ path: '/login', query: { redirect } })
+    }
   }
 })
 
+window.addEventListener('popstate', () => {
+  const token = window.localStorage.getItem('token')
+  const isAllowPath = allowList.some(path => window.location.pathname.startsWith(path))
+  if (isAllowPath && token) {
+    window.location.href = '/'
+  }
+})
 export default router

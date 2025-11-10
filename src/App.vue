@@ -31,7 +31,9 @@ export default {
       if (Math.abs(dx) > 120 && Math.abs(dx) > Math.abs(dy) * 2) {
         if (dx > 0) {
           // 右滑，返回上一页
-          if (window.history.length > 1) this.$router.back()
+          if (this.$route.path !== '/login' || this.$route.path !== '/register') {
+            if (window.history.length > 1) this.$router.back()
+          }
         } else {
           // 左滑，前进（如有历史）
           // 可自定义：如切换到下一个 tab 或页面

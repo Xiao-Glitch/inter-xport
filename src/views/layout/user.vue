@@ -25,8 +25,8 @@
               :options="options"
               @select="onSelect"
             />
-          <van-cell title="意见反馈" is-link />
-          <van-cell title="关于我们" is-link />
+          <van-cell title="意见反馈" is-link to="feedback"/>
+          <van-cell title="关于我的" is-link to="about"/>
           <van-cell v-show="!islogin" to='/login' title="去登录" is-link />
           <van-cell v-show="islogin" @click="logout" title="退出登录" is-link />
         </van-cell-group>

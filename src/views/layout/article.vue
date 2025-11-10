@@ -403,7 +403,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 .nav-before {
   position: sticky;
-  top: 45px;
+  top: 44px;
   overflow-x: auto;
   z-index: 999;
   .nav-list {

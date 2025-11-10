@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import { Toast } from 'vant'
+
 export default {
   name: 'MessagePage',
   data () {
@@ -116,8 +118,9 @@ export default {
       if (idx > -1) this.list.splice(idx, 1)
     },
     goDetail (item) {
-      item.read = true
-      this.$router.push({ name: 'Chat', params: { id: item.id } })
+      // item.read = true
+      // this.$router.push({ name: 'Chat', params: { id: item.id } })
+      Toast('功能暂未实现')
     },
     mockMsg () {
       const base = [
