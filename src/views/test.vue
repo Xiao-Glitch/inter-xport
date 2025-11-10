@@ -1,7 +1,7 @@
 <template>
   <div class="test-view">
     <div class="header">
-      <h4 v-show="!showSpammer">看累了吧 点击开启禅模式</h4>
+      <h4 v-show="!showSpammer">看累了吧 点击开启治愈时刻</h4>
       <button @click="showSpammer = true" v-show="!showSpammer">显示</button>
     </div>
     <TipsSpammer v-show="showSpammer"/>

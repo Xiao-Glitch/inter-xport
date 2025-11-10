@@ -26,9 +26,11 @@ export default {
       tips: [],
       tipTexts: [
         '要记得喝水哦(～￣▽￣)～', '要多吃水果', '天冷了多穿衣服',
-        '祝每天都有开心快乐', '记得早睡9.·̫·?', '要好好吃饭 {°•̀ω•́°}',
+        '祝每天都有开心快乐', '记得早睡(✿◠‿◠)', '要好好吃饭 {°•̀ω•́°}',
         '一个人也要好好的(｡･ω･｡)', '期待每一次见面 /// - ^ - ///',
-        '要多喝水啦～', '要好好爱自己~>ω<)', '要加油哦~', '万事如意'
+        '要多喝水啦～', '要好好爱自己~>ω<)', '要加油哦~', '万事如意',
+        '记得每天笑一笑^▽^', '愿你每天都能发现生活中的小确幸～(๑・̀ㅂ・́)و✧',
+        '记得照顾好自己哟(๑•̀ㅂ•́)و✧', '记得给心灵也洒点光~(✿◠‿◠)'
       ],
       colors: [
         '#00BFFF', '#FF69B4', '#32CD32', '#87CEFA', '#FFD700',
@@ -43,14 +45,21 @@ export default {
     this.startSpawning()
   },
 
-  beforeUnmount () {
+  unmounted () {
     this.stopSpawning()
+    // 清除所有提示框
+    this.tips = []
+  },
+
+  activated () {
+    this.startSpawning()
   },
 
   methods: {
     startSpawning () {
       const createTip = () => {
         // 随机生成提示框数据
+        // console.log(this.tips.length)
         const tip = {
           id: this.nextId++,
           text: this.tipTexts[Math.floor(Math.random() * this.tipTexts.length)],
@@ -61,13 +70,16 @@ export default {
 
         this.tips.push(tip)
 
-        // 5秒后自动消失（模拟无法关闭的效果）
+        // 5秒后自动消失
+        // setTimeout(() => {
+        //   this.tips = this.tips.filter(t => t.id !== tip.id)
+        // }, 2000)
         setTimeout(() => {
           this.tips = this.tips.filter(t => t.id !== tip.id)
-        }, 5000)
+        }, 2000)
 
         // 随机间隔0.5-2秒创建下一个
-        const delay = Math.random() * 1500 + 500
+        const delay = Math.floor((Math.random() * 2000) + 1000)
         this.timer = setTimeout(createTip, delay)
       }
       createTip()
@@ -93,7 +105,7 @@ export default {
 
 .tip-window {
   position: fixed;
-  width: 300px;
+  width: 220px;
   height: 100px;
   color: white;
   display: flex;
