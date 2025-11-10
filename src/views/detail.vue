@@ -24,7 +24,7 @@
           </p>
           <div class="author">
             <p>
-              <img src="../assets/avatar.png" alt="">
+              <img src="../assets/logo.png" alt="">
               <span>作者: {{ item.other }}</span>
             </p>
             <van-button :icon="follow ? 'success' : 'plus'" size="mini" type="info" @click="adtFollow">

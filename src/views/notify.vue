@@ -130,7 +130,7 @@ export default {
           title: '小卡拉蜜',
           desc: '兄弟，这个激活码能行吗？',
           time: '刚刚',
-          avatar: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
+          avatar: require('@/assets/avatar.png'),
           read: false
         },
         {
@@ -139,7 +139,7 @@ export default {
           title: '安安说前端',
           desc: '赞了你的评论',
           time: '2小时前',
-          avatar: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
+          avatar: require('@/assets/avatar.png'),
           read: false
         },
         {
@@ -148,7 +148,7 @@ export default {
           title: '后端架构进阶',
           desc: '@你 来看看 Navicat 新教程',
           time: '昨天',
-          avatar: 'http://teachoss.itheima.net/heimaQuestionMiniapp/%E5%AE%98%E6%96%B9%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F%402x.png',
+          avatar: require('@/assets/avatar.png'),
           read: false
         }
       ]

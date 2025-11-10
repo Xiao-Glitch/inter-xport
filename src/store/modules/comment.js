@@ -9,7 +9,7 @@ export default {
         articleId: '20230421001',
         name: '小卡拉蜜',
         avatar: require('@/assets/avatar.png'),
-        content: '艾马特拉斯',
+        content: '讲的很好',
         time: '2025-06-08 14:30:00',
         like: 0,
         liked: false,
@@ -25,7 +25,7 @@ export default {
           {
             id: 90012,
             name: '安安',
-            content: '收到，艾马特拉斯',
+            content: '讲的不错，很棒',
             time: '2025-06-08 15:00:14',
             like: 3,
             liked: false
@@ -40,8 +40,8 @@ export default {
           },
           {
             id: 90015,
-            name: '安安',
-            content: '收到，艾马特拉斯',
+            name: '我本善良',
+            content: '很棒',
             time: '2025-06-08 15:00:29',
             like: 3,
             liked: false
