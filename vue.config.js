@@ -10,6 +10,17 @@ module.exports = defineConfig({
   },
   css: {
     loaderOptions: {
+      postcss: {
+        plugins: [
+          require('autoprefixer')({
+            overrideBrowserslist: ['Android >= 4.0', 'ios >= 8']
+          }),
+          require('postcss-pxtorem')({
+            rootValue: 37.5,
+            propList: ['*']
+          })
+        ]
+      },
       less: {
         lessOptions: {
           modifyVars: {
@@ -19,5 +30,12 @@ module.exports = defineConfig({
       }
     }
   },
-  publicPath: './'
+  devServer: {
+    host: '0.0.0.0',
+    port: 8080
+  },
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/inter-xport/'
+    : '/',
+  outputDir: 'dist'
 })

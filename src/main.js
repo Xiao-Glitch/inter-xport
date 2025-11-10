@@ -8,6 +8,11 @@ import 'vant/lib/index.less'
 import '@/assets/css/index.less'
 import ArticleItem from './components/ArticleItem.vue'
 
+const redirect = sessionStorage.redirect
+delete sessionStorage.redirect
+if (redirect && redirect !== location.pathname) {
+  router.push(redirect.replace('/inter-xport', ''))
+}
 Vue.component('ArticleItem', ArticleItem)
 Vue.use(Vant)
 Vue.config.productionTip = false
