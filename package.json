@@ -9,7 +9,6 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "core-js": "^3.8.3",
     "dayjs": "^1.11.19",
     "vant": "^2.13.9",
     "vue": "^2.6.14",
