@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { Toast } from 'vant'
+import { Toast, Notify } from 'vant'
 export default {
   name: 'BindMobile',
   data () {
@@ -42,6 +42,7 @@ export default {
       code: '',
       mobileError: '',
       count: 0,
+      codeNum: null,
       counting: false
     }
   },
@@ -57,6 +58,20 @@ export default {
       // await this.$api.user.sendSmsCode({ mobile: this.mobile })
       this.countDown()
       Toast('验证码已发送')
+      this.getCode()
+      setTimeout(() => {
+        Notify({
+          type: 'success',
+          message: '验证码为' + this.codeNum,
+          duration: 3400,
+          color: 'white'
+        })
+      }, 2800)
+    },
+
+    async getCode () {
+      this.codeNum = Math.floor(Math.random() * 10000)
+      return this.codeNum
     },
     countDown () {
       this.count = 60
@@ -76,7 +91,7 @@ export default {
 
       // ① 调接口验证
       // await this.$api.user.bindMobile({ mobile: this.mobile, code: this.code })
-
+      if (this.codeNum !== Number(this.code)) return Toast('验证码错误')
       // ② 成功 → 写回 localStorage.user
       const user = JSON.parse(localStorage.getItem('user') || '{}')
       user.mobile = this.mobile

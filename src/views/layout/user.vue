@@ -95,7 +95,7 @@ export default {
           // wxShareTimeline()
           break
         case 'copy':
-          Toast('已复制链接')
+          this.handleCopy()
           // copyLink()
           break
         case 'poster':
@@ -115,6 +115,34 @@ export default {
         // window.location.reload()
         this.islogin = JSON.parse(localStorage.getItem('islogin'))
       }, 2000)
+    },
+    handleCopy () {
+      const url = window.location.href
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(url).then(() => {
+          Toast('已复制链接')
+        }).catch(() => {
+          this.fallbackCopy(url)
+        })
+      } else {
+        this.fallbackCopy(url)
+      }
+    },
+    fallbackCopy (text) {
+      const input = document.createElement('input')
+      input.value = text
+      input.style.position = 'fixed'
+      input.style.left = '-100vw'
+      document.body.appendChild(input)
+      input.select()
+      try {
+        document.execCommand('copy')
+        Toast('已复制链接')
+      } catch (err) {
+        Toast('复制失败')
+      } finally {
+        document.body.removeChild(input)
+      }
     }
   },
   mounted () {

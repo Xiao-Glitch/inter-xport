@@ -21,6 +21,7 @@ export default {
   },
   methods: {
     async save () {
+      if (this.oldPwd === this.newPwd) return Toast('新旧密码不能相同')
       if (!this.oldPwd || !this.newPwd || !this.confirmPwd) return Toast('请填写完整')
       if (this.newPwd !== this.confirmPwd) return Toast('两次密码不一致')
       if (this.newPwd.length < 6) return Toast('密码至少6位')
