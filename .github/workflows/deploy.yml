@@ -1,0 +1,40 @@
+name: Vue2 Vant Deploy
+
+on:
+  push:
+    branches: [main, master]  # 适配你的主分支名
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Node.js 14.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14'  # Vue2 建议用 14-16 版本
+          cache: 'npm'
+
+      - name: 安装依赖
+        run: npm ci  # 比 npm install 更快更稳定
+
+      - name: 构建项目
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: 处理 History 模式（如需要）
+        if: hashFiles('dist/index.html') != ''
+        run: cp dist/index.html dist/404.html  # 解决刷新404问题
+
+      - name: 部署到 GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          force_orphan: true  # 保持提交历史干净
