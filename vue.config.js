@@ -1,4 +1,5 @@
 const { defineConfig } = require('@vue/cli-service')
+
 module.exports = defineConfig({
   transpileDependencies: true,
   configureWebpack: {
@@ -11,15 +12,17 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       postcss: {
-        plugins: [
-          require('autoprefixer')({
-            overrideBrowserslist: ['Android >= 4.0', 'ios >= 8']
-          }),
-          require('postcss-pxtorem')({
-            rootValue: 37.5,
-            propList: ['*']
-          })
-        ]
+        postcssOptions: {
+          plugins: [
+            require('autoprefixer')({
+              overrideBrowserslist: ['Android >= 4.0', 'ios >= 8']
+            }),
+            require('postcss-pxtorem')({
+              rootValue: 37.5,
+              propList: ['*']
+            })
+          ]
+        }
       },
       less: {
         lessOptions: {
